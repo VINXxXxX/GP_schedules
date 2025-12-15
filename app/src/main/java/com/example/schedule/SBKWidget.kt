@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.TimeZone
 
 class SBKWidget : AppWidgetProvider() {
 
@@ -107,7 +108,21 @@ class SBKWidget : AppWidgetProvider() {
                         "sp" -> "SP"
                         else -> s.sessionName.uppercase()
                     }
-                    val line = "$name ${s.sessionTime}\n"
+                    // Convert time to user's local timezone
+                    val originalTime = s.sessionTime.trim() // e.g. "10:45 AM"
+                    val convertedTime = try {
+                        val inputFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                        inputFormat.timeZone = TimeZone.getTimeZone("Asia/Kolkata") // Change to the original timezone (e.g. IST for Indian races, or circuit timezone)
+                        val date = inputFormat.parse(originalTime)
+
+                        val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                        outputFormat.timeZone = TimeZone.getDefault() // User's local timezone
+                        outputFormat.format(date)
+                    } catch (e: Exception) {
+                        originalTime // Fallback if parsing fails
+                    }
+
+                    val line = "$name $convertedTime\n"
 
                     when (s.sessionName.lowercase()) {
                         "fp1", "fp2" -> fri.append(line)

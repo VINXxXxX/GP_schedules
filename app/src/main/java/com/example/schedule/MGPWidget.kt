@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.TimeZone
 
 class MGPWidget : AppWidgetProvider() {
 
@@ -36,25 +37,32 @@ class MGPWidget : AppWidgetProvider() {
                 var upcomingRaces = races.filter { it.race >= todayStr }
                 var race = upcomingRaces.firstOrNull() ?: races.first()
 
-                // Calculate Friday (now the race field is Friday date)
+                // Calculate Friday (JSON "race" is Friday date)
                 val raceCalendar = Calendar.getInstance().apply {
                     val parts = race.race.split("-")
-                    set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt())
+                    set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt(), 0, 0, 0)
+                    set(Calendar.MILLISECOND, 0)
                 }
-                val fridayCalendar = raceCalendar // Friday is the race date
-                val mondayAfterCalendar = (raceCalendar.clone() as Calendar).apply { add(Calendar.DAY_OF_MONTH, 3) } // Monday after (Friday + 3 days)
+                var fridayCalendar = raceCalendar // Friday is the race date
+                var mondayAfterCalendar = (raceCalendar.clone() as Calendar).apply { add(Calendar.DAY_OF_MONTH, 3) } // Monday after weekend
 
-                val todayCalendar = Calendar.getInstance()
+                val todayCalendar = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }
 
-// If today is Monday or later after the weekend → show next race
-                if (todayCalendar.after(mondayAfterCalendar)) {
+// If today is Monday or later → show next race
+                if (todayCalendar.after(mondayAfterCalendar) || todayCalendar.timeInMillis == mondayAfterCalendar.timeInMillis) {
                     val nextRaces = races.filter { it.race > race.race }
                     race = nextRaces.firstOrNull() ?: races.first()
 
                     // Recalculate for next race
                     val nextRaceCalendar = Calendar.getInstance().apply {
                         val parts = race.race.split("-")
-                        set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt())
+                        set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt(), 0, 0, 0)
+                        set(Calendar.MILLISECOND, 0)
                     }
                     fridayCalendar.timeInMillis = nextRaceCalendar.timeInMillis
                     mondayAfterCalendar.timeInMillis = nextRaceCalendar.timeInMillis + 3 * 24 * 60 * 60 * 1000
@@ -105,7 +113,21 @@ class MGPWidget : AppWidgetProvider() {
                         "race" -> "RACE"
                         else -> s.sessionName.uppercase()
                     }
-                    val line = "$name ${s.sessionTime}\n"
+                    // Convert time to user's local timezone
+                    val originalTime = s.sessionTime.trim() // e.g. "10:45 AM"
+                    val convertedTime = try {
+                        val inputFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                        inputFormat.timeZone = TimeZone.getTimeZone("Asia/Kolkata") // Change to the original timezone (e.g. IST for Indian races, or circuit timezone)
+                        val date = inputFormat.parse(originalTime)
+
+                        val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                        outputFormat.timeZone = TimeZone.getDefault() // User's local timezone
+                        outputFormat.format(date)
+                    } catch (e: Exception) {
+                        originalTime // Fallback if parsing fails
+                    }
+
+                    val line = "$name $convertedTime\n"
 
                     when (s.sessionName.lowercase()) {
                         "fp1", "fp2" -> fri.append(line)

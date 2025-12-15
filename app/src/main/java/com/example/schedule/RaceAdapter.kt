@@ -14,7 +14,9 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.schedule.model.Race
-
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 class RaceAdapter(private val races: List<Race>) : RecyclerView.Adapter<RaceAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -111,8 +113,21 @@ class RaceAdapter(private val races: List<Race>) : RecyclerView.Adapter<RaceAdap
                             else -> s.sessionName.uppercase()
                         }
 
+                        // Convert time to user's local timezone (same as widget)
+                        val originalTime = s.sessionTime.trim() // e.g. "10:45 AM"
+                        val convertedTime = try {
+                            val inputFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
+                            inputFormat.timeZone = TimeZone.getTimeZone("Asia/Kolkata") // Change to the original timezone (e.g. IST for Indian races, or circuit timezone)
+                            val date = inputFormat.parse(originalTime)
+                            val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                            outputFormat.timeZone = TimeZone.getDefault() // User's local timezone
+                            outputFormat.format(date)
+                        } catch (e: Exception) {
+                            originalTime // Fallback if parsing fails
+                        }
+
                         val tv = TextView(holder.itemView.context).apply {
-                            text = "$displayName\n${s.sessionTime}"
+                            text = "$displayName\n${convertedTime}"
                             setTextColor(-1)
                             textSize = 13f
                             gravity = Gravity.CENTER
