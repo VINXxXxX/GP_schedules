@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="14dp"
+    android:background="@drawable/widget_gradient_sbk"> <!-- Gradient + rounded -->
+    <LinearLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <!-- GP 1 - BURIRAM (left aligned, bold) -->
+    <TextView
+        android:id="@+id/widget_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textSize="32sp"
+        android:fontFamily="sans-serif-black"
+        android:textStyle="bold" />
+
+    <!-- 1 FEB (left aligned, bold) -->
+    <TextView
+        android:id="@+id/widget_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="#DDDDDD"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-black" />
+
+    <!-- Sessions table — 3 columns, bold, larger space -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical">
+
+        <!-- FRI (left) -->
+        <TextView
+            android:id="@+id/friday_sessions"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-black"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <!-- SAT (center) -->
+        <TextView
+            android:id="@+id/saturday_sessions"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-black"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <!-- SUN (right) -->
+        <TextView
+            android:id="@+id/sunday_sessions"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-black"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="10dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Countdown — top right corner -->
+        <TextView
+            android:id="@+id/widget_countdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:textColor="#FF4444"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-black"
+            android:textStyle="bold"
+            android:background="@drawable/countdown_rounded_sbk"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:radius="18dp"
+            tools:ignore="RelativeOverlap" />
+    </RelativeLayout>

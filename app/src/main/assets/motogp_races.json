@@ -1,0 +1,884 @@
+{
+  "races": [
+    {
+      "name": "Buriram Grand Prix",
+      "location": "Buriram, Thailand",
+      "track": "Chang International Circuit",
+      "round": 1,
+      "category": "MotoGP",
+      "race": "2026-02-27",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "09:15 AM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "01:00 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "08:40 AM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "09:20 AM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "09:45 AM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "01:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "01:30 PM"
+        }
+      ],
+      "slug": "buriram-grand-prix",
+      "localeKey": "buriram-grand-prix"
+    },
+    {
+      "name": "Goiania Grand Prix",
+      "location": "Goiânia, Brazil",
+      "track": "Autódromo Internacional Ayrton Senna",
+      "round": 2,
+      "category": "MotoGP",
+      "race": "2026-03-20",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "10:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "01:30 AM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "09:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "10:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "11:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "11:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "10:30 PM"
+        }
+      ],
+      "slug": "goiania-grand-prix",
+      "localeKey": "goiania-grand-prix"
+    },
+    {
+      "name": "Austin Grand Prix",
+      "location": "Austin, USA",
+      "track": "Circuit of the Americas",
+      "round": 3,
+      "category": "MotoGP",
+      "race": "2026-03-27",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "11:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "02:40 AM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "10:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "11:05 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "11:30 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "12:00 AM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "12:00 AM"
+        }
+      ],
+      "slug": "austin-grand-prix",
+      "localeKey": "austin-grand-prix"
+    },
+    {
+      "name": "Lusail Grand Prix",
+      "location": "Lusail, Qatar",
+      "track": "Lusail International Circuit",
+      "round": 4,
+      "category": "MotoGP",
+      "race": "2026-04-10",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "07:00 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "05:40 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "06:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "07:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "07:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "08:30 PM"
+        }
+      ],
+      "slug": "lusail-grand-prix",
+      "localeKey": "lusail-grand-prix"
+    },
+    {
+      "name": "Jerez Grand Prix",
+      "location": "Jerez, Spain",
+      "track": "Circuito de Jerez",
+      "round": 5,
+      "category": "MotoGP",
+      "race": "2026-04-24",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "04:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "05:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "06:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "jerez-grand-prix",
+      "localeKey": "jerez-grand-prix"
+    },
+    {
+      "name": "Le Mans Grand Prix",
+      "location": "Le Mans, France",
+      "track": "Le Mans Bugatti Circuit",
+      "round": 6,
+      "category": "MotoGP",
+      "race": "2026-05-08",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "04:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "05:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "06:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "le-mans-grand-prix",
+      "localeKey": "le-mans-grand-prix"
+    },
+    {
+      "name": "Barcelona Grand Prix",
+      "location": "Catalunya, Spain",
+      "track": "Circuit de Barcelona",
+      "round": 7,
+      "category": "MotoGP",
+      "race": "2026-05-15",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "02:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "01:40 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "02:20 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "02:45 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "barcelona-grand-prix",
+      "localeKey": "barcelona-grand-prix"
+    },
+    {
+      "name": "Mugello Grand Prix",
+      "location": "Mugello, Italy",
+      "track": "Autodromo Internazionale del Mugello",
+      "round": 8,
+      "category": "MotoGP",
+      "race": "2026-05-29",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "04:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "05:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "06:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "mugello-grand-prix",
+      "localeKey": "mugello-grand-prix"
+    },
+    {
+      "name": "Balaton Grand Prix",
+      "location": "Balaton, Hungary",
+      "track": "Balaton Park Circuit",
+      "round": 9,
+      "category": "MotoGP",
+      "race": "2026-06-05",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "04:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "05:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "06:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "balaton-grand-prix",
+      "localeKey": "balaton-grand-prix"
+    },
+    {
+      "name": "Brno Grand Prix",
+      "location": "Brno, Czech Republic",
+      "track": "Automotodrom Brno",
+      "round": 10,
+      "category": "MotoGP",
+      "race": "2026-06-19",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "04:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "05:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "06:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "brno-grand-prix",
+      "localeKey": "brno-grand-prix"
+    },
+    {
+      "name": "Assen Grand Prix",
+      "location": "Assen, Netherlands",
+      "track": "TT Circuit Assen",
+      "round": 11,
+      "category": "MotoGP",
+      "race": "2026-06-26",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "04:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "05:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "06:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "assen-grand-prix",
+      "localeKey": "assen-grand-prix"
+    },
+    {
+      "name": "Sachsenring Grand Prix",
+      "location": "Sachsenring, Germany",
+      "track": "Sachsenring",
+      "round": 12,
+      "category": "MotoGP",
+      "race": "2026-07-10",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "04:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "05:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "06:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "sachsenring-grand-prix",
+      "localeKey": "sachsenring-grand-prix"
+    },
+    {
+      "name": "Silverstone Grand Prix",
+      "location": "Silverstone, UK",
+      "track": "Silverstone Circuit",
+      "round": 13,
+      "category": "MotoGP",
+      "race": "2026-08-07",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "06:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "09:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "05:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "06:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "07:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "07:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "silverstone-grand-prix",
+      "localeKey": "silverstone-grand-prix"
+    },
+    {
+      "name": "Aragon Grand Prix",
+      "location": "Aragón, Spain",
+      "track": "MotorLand Aragón",
+      "round": 14,
+      "category": "MotoGP",
+      "race": "2026-08-28",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "04:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "05:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "06:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "aragon-grand-prix",
+      "localeKey": "aragon-grand-prix"
+    },
+    {
+      "name": "Misano Grand Prix",
+      "location": "Misano, Italy",
+      "track": "Misano World Circuit Marco Simoncelli",
+      "round": 15,
+      "category": "MotoGP",
+      "race": "2026-09-11",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "02:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "01:40 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "02:20 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "02:45 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "misano-grand-prix",
+      "localeKey": "misano-grand-prix"
+    },
+    {
+      "name": "Spielberg Grand Prix",
+      "location": "Spielberg, Austria",
+      "track": "Red Bull Ring",
+      "round": 16,
+      "category": "MotoGP",
+      "race": "2026-09-18",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "04:00 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "05:40 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "06:05 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "spielberg-grand-prix",
+      "localeKey": "spielberg-grand-prix"
+    },
+    {
+      "name": "Motegi Grand Prix",
+      "location": "Motegi, Japan",
+      "track": "Twin Ring Motegi",
+      "round": 17,
+      "category": "MotoGP",
+      "race": "2026-10-02",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "07:15 AM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "11:30 AM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "06:40 AM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "07:20 AM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "07:45 AM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "11:30 AM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "10:30 AM"
+        }
+      ],
+      "slug": "motegi-grand-prix",
+      "localeKey": "motegi-grand-prix"
+    },
+    {
+      "name": "Mandalika Grand Prix",
+      "location": "Mandalika, Indonesia",
+      "track": "Mandalika International Street Circuit",
+      "round": 18,
+      "category": "MotoGP",
+      "race": "2026-10-09",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "08:15 AM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "07:40 AM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "08:20 AM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "08:45 AM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "12:30 PM"
+        }
+      ],
+      "slug": "mandalika-grand-prix",
+      "localeKey": "mandalika-grand-prix"
+    },
+    {
+      "name": "Phillip Island Grand Prix",
+      "location": "Phillip Island, Australia",
+      "track": "Phillip Island Grand Prix Circuit",
+      "round": 19,
+      "category": "MotoGP",
+      "race": "2026-10-23",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:15 AM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "09:30 AM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "04:40 AM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "05:20 AM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "05:45 AM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "09:30 AM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "08:30 AM"
+        }
+      ],
+      "slug": "phillip-island-grand-prix",
+      "localeKey": "phillip-island-grand-prix"
+    },
+    {
+      "name": "Sepang Grand Prix",
+      "location": "Sepang, Malaysia",
+      "track": "Sepang International Circuit",
+      "round": 20,
+      "category": "MotoGP",
+      "race": "2026-10-31",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "08:15 AM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "07:40 AM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "08:20 AM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "08:45 AM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "12:30 PM"
+        }
+      ],
+      "slug": "sepang-grand-prix",
+      "localeKey": "sepang-grand-prix"
+    },
+    {
+      "name": "Portimao Grand Prix",
+      "location": "Portimão, Portugal",
+      "track": "Autódromo Internacional do Algarve",
+      "round": 21,
+      "category": "MotoGP",
+      "race": "2026-11-13",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "04:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "03:40 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "04:20 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "04:45 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "06:30 PM"
+        }
+      ],
+      "slug": "portimao-grand-prix",
+      "localeKey": "portimao-grand-prix"
+    },
+    {
+      "name": "Valencia Grand Prix",
+      "location": "Valencia, Spain",
+      "track": "Circuit Ricardo Tormo",
+      "round": 22,
+      "category": "MotoGP",
+      "race": "2026-11-20",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "03:15 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "07:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "02:40 PM"
+        },
+        {
+          "sessionName": "q1",
+          "sessionTime": "03:20 PM"
+        },
+        {
+          "sessionName": "q2",
+          "sessionTime": "03:45 PM"
+        },
+        {
+          "sessionName": "sprint",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "race",
+          "sessionTime": "06:30 PM"
+        }
+      ],
+      "slug": "valencia-grand-prix",
+      "localeKey": "valencia-grand-prix"
+    }
+  ]
+}

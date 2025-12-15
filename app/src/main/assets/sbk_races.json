@@ -1,0 +1,484 @@
+{
+  "races" : [
+    {
+      "name": "Philip Island Round",
+      "location": "Philip Island, Australia",
+      "track": "Philip Island Grand Prix Circuit",
+      "round": 1,
+      "category": "SBK",
+      "race": "2026-02-20",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "05:10 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:00 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "03:10 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "07:30 PM"
+        }
+      ],
+      "slug": "phillip-island-round",
+      "localeKey": "phillip-island-round"
+    },
+    {
+      "name": "Portimão Round",
+      "location": "Portimão, Portugal",
+      "track": "Autódromo Internacional",
+      "round": 2,
+      "category": "SBK",
+      "race": "2026-03-27",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "04:05 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "08:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "04:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "07:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "03:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "06:30 PM"
+        }
+      ],
+      "slug": "portimao-round",
+      "localeKey": "portimao-round"
+    },
+    {
+      "name": "Assen Round",
+      "location": "Assen, Netherlands",
+      "track": "TT Circuit Assen",
+      "round": 3,
+      "category": "SBK",
+      "race": "2026-04-17",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "01:50 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "assen-round",
+      "localeKey": "assen-round"
+    },
+    {
+      "name": "Balaton Round",
+      "location": "Balaton, Hungary",
+      "track": "Balaton Park Circuit",
+      "round": 4,
+      "category": "SBK",
+      "race": "2026-05-01",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "01:50 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "balaton-round",
+      "localeKey": "balaton-round"
+    },
+    {
+      "name": "Autodrom Round",
+      "location": "Czechia, Czechia",
+      "track": "Autodrom Most",
+      "round": 5,
+      "category": "SBK",
+      "race": "2026-05-15",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "02:05 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "autodrom-most-round",
+      "localeKey": "autodrom-most-round"
+    },
+    {
+      "name": "Aragón Round",
+      "location": "Aragón, Spain",
+      "track": "MotorLand Aragón",
+      "round": 6,
+      "category": "SBK",
+      "race": "2026-05-29",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "02:05 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "07:30 PM"
+        }
+      ],
+      "slug": "aragon-round",
+      "localeKey": "aragon-round"
+    },
+    {
+      "name": "Misano Round",
+      "location": "Misano, Italy",
+      "track": "Misano World Circuit Marco Simoncelli",
+      "round": 7,
+      "category": "SBK",
+      "race": "2026-06-12",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "01:50 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "misano-round",
+      "localeKey": "misano-round"
+    },
+    {
+      "name": "Donington Round",
+      "location": "Donington, UK",
+      "track": "Donington Park Circuit",
+      "round": 8,
+      "category": "SBK",
+      "race": "2026-07-10",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "02:50 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "07:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "01:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "03:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "03:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "06:30 PM"
+        }
+      ],
+      "slug": "donington-round",
+      "localeKey": "donington-round"
+    },
+    {
+      "name": "Magny-Cours Round",
+      "location": "MagnyCours, France",
+      "track": "Circuit de Nevers Magny-Cours",
+      "round": 9,
+      "category": "SBK",
+      "race": "2026-09-04",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "01:50 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "07:00 PM"
+        }
+      ],
+      "slug": "magny-cours-round",
+      "localeKey": "magny-cours-round"
+    },
+    {
+      "name": "Cremona Round",
+      "location": "Cremona, Italy",
+      "track": "Autodromo di Cremona",
+      "round": 10,
+      "category": "SBK",
+      "race": "2026-09-25",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "01:50 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "05:30 PM"
+        }
+      ],
+      "slug": "cremona-round",
+      "localeKey": "cremona-round"
+    },
+    {
+      "name": "Estoril Round",
+      "location": "Estoril, Portugal",
+      "track": "Autódromo do Estoril",
+      "round": 11,
+      "category": "SBK",
+      "race": "2026-10-09",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "03:05 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "07:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "01:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "03:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "03:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "06:30 PM"
+        }
+      ],
+      "slug": "estoril-round",
+      "localeKey": "estoril-round"
+    },
+    {
+      "name": "Jerez Round",
+      "location": "Jerez, Spain",
+      "track": "Circuito de Jerez - Ángel Nieto",
+      "round": 12,
+      "category": "SBK",
+      "race": "2026-10-16",
+      "sessions": [
+        {
+          "sessionName": "fp1",
+          "sessionTime": "02:05 PM"
+        },
+        {
+          "sessionName": "fp2",
+          "sessionTime": "06:30 PM"
+        },
+        {
+          "sessionName": "fp3",
+          "sessionTime": "12:30 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "05:30 PM"
+        },
+        {
+          "sessionName": "spr",
+          "sessionTime": "02:30 PM"
+        },
+        {
+          "sessionName": "race2",
+          "sessionTime": "07:30 PM"
+        }
+      ],
+      "slug": "jerez-round",
+      "localeKey": "jerez-round"
+    }
+  ]
+}

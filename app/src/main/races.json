@@ -1,0 +1,24 @@
+{
+  "races": [
+    {
+      "name": "Thai Grand Prix",
+      "location": "Thailand",
+      "track": "Chang International Circuit",
+      "round": 1,
+      "category": "MotoGP",
+      "race": "2025-03-02T08:00:00Z",
+      "sessions": [
+        { "sessionName": "fp1",        "sessionTime": "2025-02-28T03:45:00Z" },
+        { "sessionName": "fp2",        "sessionTime": "2025-02-28T08:10:00Z" },
+        { "sessionName": "qualifying1","sessionTime": "2025-03-01T03:50:00Z" },
+        { "sessionName": "qualifying2","sessionTime": "2025-03-01T04:15:00Z" },
+        { "sessionName": "sprint",     "sessionTime": "2025-03-01T08:00:00Z" },
+        { "sessionName": "race",       "sessionTime": "2025-03-02T08:00:00Z" }
+      ],
+      "latitude": 14.9578931,
+      "longitude": 103.0848277,
+      "slug": "thai-grand-prix",
+      "localeKey": "thai-grand-prix"
+    }
+  ]
+}
