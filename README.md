@@ -49,6 +49,18 @@ Widgets intelligently switch to the **next race after race weekend**.
 
 ---
 
+- 🔒 No ads
+- 🔒 No analytics
+- 🔒 No internet permission
+- 🔒 Open-source
+
+---
+
+> ⚠️ This app is distributed via GitHub Releases and is **not available on Google Play Store**.
+> Users must enable **Install unknown apps** to install the APK.
+
+---
+
 ## 📷 Screenshots
 
 <p align="center">
