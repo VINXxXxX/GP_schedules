@@ -47,3 +47,17 @@ Widgets intelligently switch to the **next race after race weekend**.
 - Time & timezone change handling
 - Manual force refresh supported
 
+---
+
+## 📷 Screenshots
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e94e3358-b658-4553-a156-c934b9c5df75" width="280" />
+  <img src="https://github.com/user-attachments/assets/7b4730d5-4e08-4cfa-86ba-715b8e217d6e" width="280" />
+  <img src="https://github.com/user-attachments/assets/f08852a8-e088-49fb-ad63-6dad4844fc15" width="280" />
+</p>
+
+
+
+
+
