@@ -56,6 +56,9 @@ Widgets intelligently switch to the **next race after race weekend**.
 
 ---
 
+## 📦 Download
+👉 [Download the latest beta APK](https://github.com/VINXxXxX/GP_schedules/releases)
+
 > ⚠️ This app is distributed via GitHub Releases and is **not available on Google Play Store**.
 > Users must enable **Install unknown apps** to install the APK.
 
