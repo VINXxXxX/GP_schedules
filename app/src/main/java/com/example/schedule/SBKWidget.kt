@@ -3,6 +3,9 @@ package com.example.schedule
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.RemoteViews
 import com.example.schedule.model.Race
 import com.google.gson.Gson
@@ -14,88 +17,172 @@ import java.util.TimeZone
 
 class SBKWidget : AppWidgetProvider() {
 
-    override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        for (appWidgetId in appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId)
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
+        appWidgetIds.forEach {
+            updateAppWidget(context, appWidgetManager, it)
         }
     }
 
+    override fun onAppWidgetOptionsChanged(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int,
+        newOptions: Bundle
+    ) {
+        updateAppWidget(context, appWidgetManager, appWidgetId)
+    }
+
     companion object {
-        fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+
+        fun updateAppWidget(
+            context: Context,
+            appWidgetManager: AppWidgetManager,
+            appWidgetId: Int
+        ) {
+
+            // ---------- WIDGET SIZE ----------
+            val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
+            val minWidth =
+                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
+            val minHeight =
+                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
+
+            // Nothing OS / tight grids safety
+            val isCompact = minWidth < 240
+
+            Log.d(
+                "SBKWidget",
+                "id=$appWidgetId minW=$minWidth minH=$minHeight compact=$isCompact"
+            )
+
             val views = RemoteViews(context.packageName, R.layout.widget_sbk)
 
             try {
-                val jsonString = context.assets.open("sbk_races.json").bufferedReader().use { it.readText() }
-                val gson = Gson()
+                // ---------- LOAD RACES ----------
+                val json = context.assets
+                    .open("sbk_races.json")
+                    .bufferedReader()
+                    .use { it.readText() }
+
                 val mapType = object : TypeToken<Map<String, List<Race>>>() {}.type
-                val jsonMap: Map<String, List<Race>> = gson.fromJson(jsonString, mapType)
-                val races = jsonMap["races"] ?: emptyList()
+                val races = (Gson().fromJson<Map<String, List<Race>>>(json, mapType)["races"]
+                    ?: emptyList())
+                    .sortedBy { it.race }
 
-                val todayStr = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(java.util.Date())
-
-                // Find next upcoming race
-                var upcomingRaces = races.filter { it.race >= todayStr }
-                var race = upcomingRaces.firstOrNull() ?: races.first()
-
-                // Calculate Friday (now the race field is Friday date)
-                val raceCalendar = Calendar.getInstance().apply {
-                    val parts = race.race.split("-")
-                    set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt())
+                if (races.isEmpty()) {
+                    views.setTextViewText(R.id.widget_title, "!")
+                    appWidgetManager.updateAppWidget(appWidgetId, views)
+                    return
                 }
-                val fridayCalendar = raceCalendar // Friday is the race date
-                val mondayAfterCalendar = (raceCalendar.clone() as Calendar).apply { add(Calendar.DAY_OF_MONTH, 3) } // Monday after (Friday + 3 days)
 
-                val todayCalendar = Calendar.getInstance()
+                // ---------- TODAY (00:00) ----------
+                val today = Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, 0)
+                    set(Calendar.MINUTE, 0)
+                    set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }
 
-// If today is Monday or later after the weekend → show next race
-                if (todayCalendar.after(mondayAfterCalendar)) {
-                    val nextRaces = races.filter { it.race > race.race }
-                    race = nextRaces.firstOrNull() ?: races.first()
+                // ---------- SELECT RACE ----------
+                var selectedRace = races.first()
+                var selectedFriday: Calendar? = null
 
-                    // Recalculate for next race
-                    val nextRaceCalendar = Calendar.getInstance().apply {
-                        val parts = race.race.split("-")
-                        set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt())
+                for (race in races) {
+                    val friday = Calendar.getInstance().apply {
+                        val p = race.race.split("-")
+                        set(p[0].toInt(), p[1].toInt() - 1, p[2].toInt(), 0, 0, 0)
+                        set(Calendar.MILLISECOND, 0)
                     }
-                    fridayCalendar.timeInMillis = nextRaceCalendar.timeInMillis
-                    mondayAfterCalendar.timeInMillis = nextRaceCalendar.timeInMillis + 3 * 24 * 60 * 60 * 1000
-                }
 
-// Update title and date (date now shows Friday)
-                val city = race.location.split(",").first().trim().uppercase()
-                views.setTextViewText(R.id.widget_title, "${race.round} $city")
-
-                val parts = race.race.split("-")
-                val month = when (parts[1].toInt()) {
-                    1 -> "JAN"; 2 -> "FEB"; 3 -> "MAR"; 4 -> "APR"; 5 -> "MAY"; 6 -> "JUN"
-                    7 -> "JUL"; 8 -> "AUG"; 9 -> "SEP"; 10 -> "OCT"; 11 -> "NOV"; 12 -> "DEC"
-                    else -> "???"
-                }
-                views.setTextViewText(R.id.widget_date, "${parts[2]} $month")
-
-// Countdown logic (days only to Friday)
-                val countdownText = when {
-                    todayCalendar.after(mondayAfterCalendar) -> {
-                        val diffMillis = fridayCalendar.timeInMillis - todayCalendar.timeInMillis
-                        val days = (diffMillis / (1000 * 60 * 60 * 24)).toInt()
-                        if (days > 1) "${days}D" else if (days == 1) "Tmrw" else "Soon"
+                    val mondayAfter = (friday.clone() as Calendar).apply {
+                        add(Calendar.DAY_OF_MONTH, 3)
                     }
-                    todayCalendar.after(fridayCalendar) -> "LIVE"
-                    else -> {
-                        val diffMillis = fridayCalendar.timeInMillis - todayCalendar.timeInMillis
-                        val days = (diffMillis / (1000 * 60 * 60 * 24)).toInt()
-                        if (days > 1) "${days}D" else if (days == 1) "Tmrw" else "Today!"
+
+                    if (today.timeInMillis < friday.timeInMillis ||
+                        today.timeInMillis in friday.timeInMillis until mondayAfter.timeInMillis
+                    ) {
+                        selectedRace = race
+                        selectedFriday = friday
+                        break
                     }
                 }
+
+                if (selectedFriday == null) {
+                    val p = selectedRace.race.split("-")
+                    selectedFriday = Calendar.getInstance().apply {
+                        set(p[0].toInt(), p[1].toInt() - 1, p[2].toInt(), 0, 0, 0)
+                        set(Calendar.MILLISECOND, 0)
+                    }
+                }
+
+                // ---------- TITLE ----------
+                val city = selectedRace.location
+                    .split(",")
+                    .first()
+                    .trim()
+                    .uppercase()
+
+                views.setTextViewText(
+                    R.id.widget_title,
+                    "${selectedRace.round} $city"
+                )
+
+                val months = arrayOf(
+                    "JAN","FEB","MAR","APR","MAY","JUN",
+                    "JUL","AUG","SEP","OCT","NOV","DEC"
+                )
+
+                views.setTextViewText(
+                    R.id.widget_date,
+                    "${selectedFriday.get(Calendar.DAY_OF_MONTH)} ${
+                        months[selectedFriday.get(Calendar.MONTH)]
+                    }"
+                )
+
+                // ---------- COUNTDOWN / LIVE ----------
+                val raceEnd =
+                    selectedFriday.timeInMillis + 3 * 24 * 60 * 60 * 1000
+
+                val countdownText =
+                    if (today.timeInMillis in selectedFriday.timeInMillis until raceEnd) {
+                        "LIVE"
+                    } else {
+                        val diffMillis =
+                            selectedFriday.timeInMillis - today.timeInMillis
+                        val days =
+                            (diffMillis / (1000L * 60 * 60 * 24)).toInt()
+                        "${if (days < 0) 0 else days}D"
+                    }
+
                 views.setTextViewText(R.id.widget_countdown, countdownText)
-                views.setTextViewText(R.id.widget_countdown, countdownText)
 
-                // Sessions table
+                // ---------- SESSION VISIBILITY ----------
+                if (isCompact) {
+                    views.setViewVisibility(R.id.friday_sessions, View.GONE)
+                    views.setViewVisibility(R.id.saturday_sessions, View.GONE)
+                    views.setViewVisibility(R.id.sunday_sessions, View.GONE)
+                } else {
+                    views.setViewVisibility(R.id.friday_sessions, View.VISIBLE)
+                    views.setViewVisibility(R.id.saturday_sessions, View.VISIBLE)
+                    views.setViewVisibility(R.id.sunday_sessions, View.VISIBLE)
+                }
+
+                // ---------- SESSIONS ----------
                 val fri = StringBuilder("FRI\n")
                 val sat = StringBuilder("SAT\n")
                 val sun = StringBuilder("SUN\n")
 
-                race.sessions.forEach { s ->
+                val input = SimpleDateFormat("hh:mm a", Locale.ENGLISH).apply {
+                    timeZone = TimeZone.getTimeZone("Asia/Kolkata")
+                }
+
+                val output = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+                selectedRace.sessions.forEach { s ->
                     val name = when (s.sessionName.lowercase()) {
                         "fp1" -> "FP1"
                         "fp2" -> "FP2"
@@ -108,21 +195,14 @@ class SBKWidget : AppWidgetProvider() {
                         "sp" -> "SP"
                         else -> s.sessionName.uppercase()
                     }
-                    // Convert time to user's local timezone
-                    val originalTime = s.sessionTime.trim() // e.g. "10:45 AM"
-                    val convertedTime = try {
-                        val inputFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
-                        inputFormat.timeZone = TimeZone.getTimeZone("Asia/Kolkata") // Change to the original timezone (e.g. IST for Indian races, or circuit timezone)
-                        val date = inputFormat.parse(originalTime)
 
-                        val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-                        outputFormat.timeZone = TimeZone.getDefault() // User's local timezone
-                        outputFormat.format(date)
-                    } catch (e: Exception) {
-                        originalTime // Fallback if parsing fails
+                    val time = try {
+                        output.format(input.parse(s.sessionTime.trim())!!)
+                    } catch (_: Exception) {
+                        s.sessionTime
                     }
 
-                    val line = "$name $convertedTime\n"
+                    val line = "$name $time\n"
 
                     when (s.sessionName.lowercase()) {
                         "fp1", "fp2" -> fri.append(line)
@@ -132,11 +212,21 @@ class SBKWidget : AppWidgetProvider() {
                     }
                 }
 
-                views.setTextViewText(R.id.friday_sessions, fri.toString().trim())
-                views.setTextViewText(R.id.saturday_sessions, sat.toString().trim())
-                views.setTextViewText(R.id.sunday_sessions, sun.toString().trim())
+                views.setTextViewText(
+                    R.id.friday_sessions,
+                    fri.toString().trim()
+                )
+                views.setTextViewText(
+                    R.id.saturday_sessions,
+                    sat.toString().trim()
+                )
+                views.setTextViewText(
+                    R.id.sunday_sessions,
+                    sun.toString().trim()
+                )
 
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                Log.e("SBKWidget", "Widget update failed", e)
                 views.setTextViewText(R.id.widget_title, "!")
             }
 

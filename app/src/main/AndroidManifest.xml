@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Required for exact midnight alarms (Android 12+) -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+    <!-- Required to reschedule alarms after reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -10,15 +16,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Schedule">
+
+        <!-- Main launcher activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Boot receiver (MUST be exported=true for system broadcast) -->
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- MotoGP Widget -->
         <receiver
             android:name=".MGPWidget"
             android:label="Upcoming MotoGP"
@@ -30,7 +48,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/mgp_widget_info" />
         </receiver>
-        <receiver android:name=".SBKWidget"
+
+        <!-- SBK Widget -->
+        <receiver
+            android:name=".SBKWidget"
             android:label="Upcoming SBK"
             android:exported="false">
             <intent-filter>
@@ -40,5 +61,21 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/sbk_widget_info" />
         </receiver>
+
+        <!-- Midnight alarm receiver -->
+        <receiver
+            android:name=".WidgetUpdateReceiver"
+            android:exported="false" />
+
+        <!-- Time / timezone change receiver -->
+        <receiver
+            android:name=".TimeChangeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_CHANGED"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>

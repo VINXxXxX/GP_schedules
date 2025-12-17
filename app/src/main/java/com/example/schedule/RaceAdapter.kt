@@ -37,10 +37,18 @@ class RaceAdapter(private val races: List<Race>) : RecyclerView.Adapter<RaceAdap
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_race, parent, false)
-        racingBold = Typeface.createFromAsset(parent.context.assets, "fonts/racing_bold.ttf")
-        racingRegular = Typeface.createFromAsset(parent.context.assets, "fonts/racing_regular.ttf")
+
+        try {
+            racingBold = Typeface.createFromAsset(parent.context.assets, "fonts/racing_bold.ttf")
+            racingRegular = Typeface.createFromAsset(parent.context.assets, "fonts/racing_regular.ttf")
+        } catch (_: Exception) {
+            racingBold = Typeface.DEFAULT_BOLD
+            racingRegular = Typeface.DEFAULT
+        }
+
         return ViewHolder(view)
     }
+
 
     @SuppressLint("SetTextI18n", "UseKtx")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -104,7 +112,7 @@ class RaceAdapter(private val races: List<Race>) : RecyclerView.Adapter<RaceAdap
                             "fp3" -> "FP3"
                             "q1", "qualifying1" -> "Q1"
                             "q2", "qualifying2" -> "Q2"
-                            "sprint"-> "SPRINT"
+                            "sprint"-> "SPR"
                             "spr"-> "SPR"
                             "race" -> "RACE"
                             "race1" -> "R1"
