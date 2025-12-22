@@ -80,7 +80,8 @@ Widgets intelligently switch to the **next race after a race weekend completes**
 ## 📷 Screenshots
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/e94e3358-b658-4553-a156-c934b9c5df75" width="280" />
-  <img src="https://github.com/user-attachments/assets/7b4730d5-4e08-4cfa-86ba-715b8e217d6e" width="280" />
-  <img src="https://github.com/user-attachments/assets/f08852a8-e088-49fb-ad63-6dad4844fc15" width="280" />
+  <img src="https://github.com/user-attachments/assets/7becd2d3-5559-4c82-bbf3-5e4a6bf82589" width="280" />
+  <img src="https://github.com/user-attachments/assets/6beef6ee-2e79-4011-877d-7a71b87811f3" width="280" />
+  <img src="https://github.com/user-attachments/assets/fbc412b6-75b3-42eb-a418-6ea00158c859" width="280" />
+  <img src="https://github.com/user-attachments/assets/0d62c665-baa8-4981-b382-62096b38f06a" width="280" />
 </p>
