@@ -1,13 +1,17 @@
 package com.example.schedule
 
+import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import com.example.schedule.model.Race
+import com.example.schedule.utils.RaceDateFormatter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
@@ -38,6 +42,7 @@ class MGPWidget : AppWidgetProvider() {
 
     companion object {
 
+        @SuppressLint("UseKtx")
         fun updateAppWidget(
             context: Context,
             appWidgetManager: AppWidgetManager,
@@ -48,18 +53,35 @@ class MGPWidget : AppWidgetProvider() {
             val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
             val minWidth =
                 options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-            val minHeight =
-                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT)
 
-            // OEM-safe breakpoint (Nothing OS / tight grids)
             val isCompact = minWidth < 240
+
+            // ---------- FONT SCALE (Nothing OS FIX) ----------
+            val fontScale = context.resources.configuration.fontScale
+            val fontCompensation =
+                if (fontScale > 1.0f) (1.0f / fontScale) else 1.0f
 
             Log.d(
                 "MGPWidget",
-                "id=$appWidgetId minW=$minWidth minH=$minHeight compact=$isCompact"
+                "id=$appWidgetId minW=$minWidth compact=$isCompact fontScale=$fontScale"
             )
 
             val views = RemoteViews(context.packageName, R.layout.widget_mgp)
+
+            // ---------- MANUAL REFRESH (TAP + HAPTIC) ----------
+            val refreshIntent = Intent(context, WidgetRefreshReceiver::class.java).apply {
+                putExtra("haptic", true)
+            }
+
+            val refreshPendingIntent = PendingIntent.getBroadcast(
+                context,
+                appWidgetId,
+                refreshIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            views.setOnClickPendingIntent(R.id.widget_root, refreshPendingIntent)
+            views.setOnClickPendingIntent(R.id.widget_countdown, refreshPendingIntent)
 
             try {
                 // ---------- LOAD RACES ----------
@@ -120,27 +142,32 @@ class MGPWidget : AppWidgetProvider() {
                 }
 
                 // ---------- TITLE ----------
-                val city = selectedRace.location
-                    .split(",")
-                    .first()
-                    .trim()
-                    .uppercase()
+                val parts = selectedRace.location.split(",")
 
+                val city = parts.getOrNull(0)
+                    ?.trim()
+                    ?.uppercase()
+                    ?: ""
+
+                val country = parts.getOrNull(1)
+                    ?.trim()
+                    ?.uppercase()
+                    ?: ""
                 views.setTextViewText(
                     R.id.widget_title,
                     "${selectedRace.round} $city"
                 )
 
-                val months = arrayOf(
-                    "JAN","FEB","MAR","APR","MAY","JUN",
-                    "JUL","AUG","SEP","OCT","NOV","DEC"
+                views.setTextViewText(
+                    R.id.widget_country,
+                    country
                 )
+
+
 
                 views.setTextViewText(
                     R.id.widget_date,
-                    "${selectedFriday.get(Calendar.DAY_OF_MONTH)} ${
-                        months[selectedFriday.get(Calendar.MONTH)]
-                    }"
+                    RaceDateFormatter.formatWeekend(selectedFriday)
                 )
 
                 // ---------- COUNTDOWN / LIVE ----------
@@ -159,6 +186,39 @@ class MGPWidget : AppWidgetProvider() {
                     }
 
                 views.setTextViewText(R.id.widget_countdown, countdownText)
+
+                // ---------- APPLY TEXT SIZE TUNING ----------
+                val titleSize =
+                    if (isCompact) 27f else 30f
+                val dateSize =
+                    if (isCompact) 20f else 22f
+                val sessionSize =
+                    if (isCompact) 14.5f else 15.5f
+                views.setFloat(
+                    R.id.widget_title,
+                    "setTextSize",
+                    titleSize * fontCompensation
+                )
+                views.setFloat(
+                    R.id.widget_date,
+                    "setTextSize",
+                    dateSize * fontCompensation
+                )
+                views.setFloat(
+                    R.id.friday_sessions,
+                    "setTextSize",
+                    sessionSize * fontCompensation
+                )
+                views.setFloat(
+                    R.id.saturday_sessions,
+                    "setTextSize",
+                    sessionSize * fontCompensation
+                )
+                views.setFloat(
+                    R.id.sunday_sessions,
+                    "setTextSize",
+                    sessionSize * fontCompensation
+                )
 
                 // ---------- SESSION VISIBILITY ----------
                 if (isCompact) {
@@ -179,7 +239,6 @@ class MGPWidget : AppWidgetProvider() {
                 val input = SimpleDateFormat("hh:mm a", Locale.ENGLISH).apply {
                     timeZone = TimeZone.getTimeZone("Asia/Kolkata")
                 }
-
                 val output = SimpleDateFormat("hh:mm a", Locale.getDefault())
 
                 selectedRace.sessions.forEach { s ->
@@ -189,27 +248,83 @@ class MGPWidget : AppWidgetProvider() {
                         s.sessionTime
                     }
 
-                    val line = "${s.sessionName.uppercase()} $time\n"
+                    val raw = s.sessionName.lowercase()
+                    val display = when {
+                        raw.contains("sprint") -> "SPR"
+                        raw == "fp1" -> "FP1"
+                        raw == "fp2" -> "PR"
+                        raw == "fp3" -> "FP2"
+                        raw == "q1" -> "Q1"
+                        raw == "q2" -> "Q2"
+                        raw.contains("race") -> "RACE"
+                        else -> s.sessionName.uppercase()
+                    }
 
-                    when (s.sessionName.lowercase()) {
+                    val line = "$display $time\n"
+
+                    when (raw) {
                         "fp1", "fp2" -> fri.append(line)
                         "fp3", "q1", "q2", "sprint" -> sat.append(line)
                         else -> sun.append(line)
                     }
                 }
 
-                views.setTextViewText(
-                    R.id.friday_sessions,
-                    fri.toString().trim()
-                )
-                views.setTextViewText(
-                    R.id.saturday_sessions,
-                    sat.toString().trim()
-                )
-                views.setTextViewText(
-                    R.id.sunday_sessions,
-                    sun.toString().trim()
-                )
+                views.setTextViewText(R.id.friday_sessions, fri.toString().trim())
+                views.setTextViewText(R.id.saturday_sessions, sat.toString().trim())
+                views.setTextViewText(R.id.sunday_sessions, sun.toString().trim())
+
+                // ---------- LIVE / DIM DAY LOGIC ----------
+
+// Colors
+                val normalColor = android.graphics.Color.WHITE
+                val dimColor = android.graphics.Color.parseColor("#66FFFFFF")   // ~40% white
+                val liveColor = android.graphics.Color.parseColor("#FF9494")   // red
+
+// Reset colors first (VERY IMPORTANT)
+                views.setTextColor(R.id.friday_sessions, normalColor)
+                views.setTextColor(R.id.saturday_sessions, normalColor)
+                views.setTextColor(R.id.sunday_sessions, normalColor)
+
+// Build race day calendars
+                val fridayCal = selectedFriday!!
+                val saturdayCal = (fridayCal.clone() as Calendar).apply {
+                    add(Calendar.DAY_OF_MONTH, 1)
+                }
+                val sundayCal = (fridayCal.clone() as Calendar).apply {
+                    add(Calendar.DAY_OF_MONTH, 2)
+                }
+
+                val now = Calendar.getInstance()
+
+// ---------- DIM PAST DAYS ----------
+                if (now.after(fridayCal)) {
+                    views.setTextColor(R.id.friday_sessions, dimColor)
+                }
+                if (now.after(saturdayCal)) {
+                    views.setTextColor(R.id.saturday_sessions, dimColor)
+                }
+                if (now.after(sundayCal)) {
+                    views.setTextColor(R.id.sunday_sessions, dimColor)
+                }
+
+// ---------- LIVE DAY HIGHLIGHT + PULSE ----------
+                val isLiveWeekend =
+                    today.timeInMillis in selectedFriday.timeInMillis until raceEnd
+
+                if (isLiveWeekend) {
+
+                    val liveViewId = when (now.get(Calendar.DAY_OF_WEEK)) {
+                        Calendar.FRIDAY -> R.id.friday_sessions
+                        Calendar.SATURDAY -> R.id.saturday_sessions
+                        Calendar.SUNDAY -> R.id.sunday_sessions
+                        else -> null
+                    }
+
+                    liveViewId?.let { viewId ->
+                        // Override dim with live color
+                        views.setTextColor(viewId, liveColor)
+                    }
+                }
 
             } catch (e: Exception) {
                 Log.e("MGPWidget", "Widget update failed", e)

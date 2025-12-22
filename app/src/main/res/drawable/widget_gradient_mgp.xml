@@ -6,6 +6,5 @@
         android:centerColor="#616161"
         android:endColor="#000000"
         android:type="linear" />
-
     <corners android:radius="28dp" /> <!-- Rounded corners like modern widgets -->
 </shape>

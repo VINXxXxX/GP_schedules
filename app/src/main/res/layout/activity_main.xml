@@ -7,6 +7,7 @@
 
     <!-- Gradient background (bottom layer) -->
     <View
+        android:id="@+id/gradientBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/widget_gradient_sbk" />
@@ -24,16 +25,27 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <!-- Bottom navigation bar -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:background="#1E1E1E"
+
+            app:menu="@menu/bottom_nav_menu"
             app:labelVisibilityMode="labeled"
+
+            app:itemIconSize="0dp"
             app:itemIconTint="@null"
+
+            app:itemHorizontalPadding="0dp"
+            app:itemVerticalPadding="0dp"
+
             app:itemTextAppearanceActive="@style/BottomNavText"
             app:itemTextAppearanceInactive="@style/BottomNavText"
-            app:menu="@menu/bottom_nav_menu" />
+            app:itemTextColor="@color/bottom_nav_text_selector"
+
+            app:itemBackground="@null"
+            app:itemRippleColor="@null"/>
+
     </LinearLayout>
 </FrameLayout>

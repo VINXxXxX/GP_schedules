@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="widget_bg_sbk">#1E1E1E</color>
-    <color name="widget_text_primary">#FFFFFF</color>
-    <color name="widget_text_secondary">#CCCCCC</color>
+    <!-- DARK (default values) -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#CCCCCC</color>
+    <color name="text_muted">#888888</color>
+    <color name="card_bg">#1E1E1E</color>
+    <!-- Racing button colors (DARK defaults) -->
+    <color name="racing_btn_bg_dark">#1C1C1C</color>
+    <color name="racing_btn_stroke_dark">#FF3B3B</color>
+    <color name="racing_btn_ripple_dark">#40FF3B3B</color>
+    <!-- Light overrides will be applied in code -->
+    <color name="racing_btn_bg_light">#FFFFFF</color>
+    <color name="racing_btn_stroke_light">#000000</color>
+    <color name="racing_btn_ripple_light">#33000000</color>
 
 </resources>

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <!-- Required for exact midnight alarms (Android 12+) -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Required to reschedule alarms after reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -62,10 +66,31 @@
                 android:resource="@xml/sbk_widget_info" />
         </receiver>
 
-        <!-- Midnight alarm receiver -->
         <receiver
-            android:name=".WidgetUpdateReceiver"
-            android:exported="false" />
+            android:name=".MGPWidgetCompact"
+            android:label="Upcoming MotoGP Compact"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/mgp_widget_compact_info"/>
+        </receiver>
+        <receiver
+            android:name=".SBKWidgetCompact"
+            android:label="Upcoming SBK Compact"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/sbk_widget_compact_info" />
+        </receiver>
+
 
         <!-- Time / timezone change receiver -->
         <receiver
@@ -76,6 +101,13 @@
                 <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".WidgetRefreshReceiver"
+            android:exported="false"/>
+        <receiver
+            android:name=".WidgetUpdateReceiver"
+            android:exported="false" />
+
 
     </application>
 </manifest>

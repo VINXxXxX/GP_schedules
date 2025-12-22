@@ -5,9 +5,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class RacePagerAdapter(activity: FragmentActivity) : FragmentStateAdapter(activity) {
-    override fun getItemCount() = 2
+    override fun getItemCount() = 3
 
     override fun createFragment(position: Int): Fragment {
-        return RaceFragment.newInstance(position == 0) // true = MotoGP, false = SBK
-    }
+        return when (position) {
+            0 -> RaceFragment.newInstance(true)   // MotoGP
+            1 -> RaceFragment.newInstance(false)  // SBK
+            2 -> SettingsFragment()               // SETTINGS ✅
+            else -> throw IllegalStateException("Invalid position $position")
+        }    }
 }
