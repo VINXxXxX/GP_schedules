@@ -29,6 +29,48 @@ class SBKWidgetCompact : AppWidgetProvider() {
     }
 
     companion object {
+        private val compactCityMap = mapOf(
+
+            // 4–5 chars (ultra safe)
+            "Most" to "MOST",
+            "Brno" to "BRNO",
+            "Assen" to "ASSEN",
+            "Jerez" to "JEREZ",
+
+            // 6 chars (very safe)
+            "Lusail" to "LUSAIL",
+            "Motegi" to "MOTEGI",
+            "Misano" to "MISANO",
+            "Sepang" to "SEPANG",
+            "Austin" to "AUSTIN",
+            "Aragón" to "ARAGON",
+
+            // 7 chars (safe)
+            "Goiânia" to "GOIANIA",
+            "Buriram" to "BURIRAM",
+            "Balaton" to "BALATON",
+            "Estoril" to "ESTORIL",
+            "Mugello" to "MUGELLO",
+            "Cremona" to "CREMONA",
+            "Sachsenring" to "SACHSEN",
+            "Mandalika" to "MANDALI",
+
+            // 8 chars (OEM-safe upper limit)
+            "Spielberg" to "SPIELBG",
+            "Le Mans" to "LEMANS",
+            "Portimão" to "PORTIMAO",
+            "Valencia" to "VALENCIA",
+
+            // Originally risky → safely compacted
+            "Catalunya" to "CATALUN",
+            "Silverstone" to "SILVERST",
+            "Phillip Island" to "PHILLIP",
+            "Donington" to "DONINGTN",
+
+            // SBK specific
+            "Magny-Cours" to "MAGNY"
+        )
+
 
         fun updateAppWidget(
             context: Context,
@@ -132,11 +174,14 @@ class SBKWidgetCompact : AppWidgetProvider() {
                 }
 
                 // ---------- TITLE ----------
-                val city = selectedRace.location
+                val cityRaw = selectedRace.location
                     .split(",")
                     .first()
                     .trim()
-                    .uppercase()
+
+                val city =
+                    (compactCityMap[cityRaw] ?: cityRaw).uppercase().take(8)   // hard OEM-safe cap
+
 
                 views.setTextViewText(
                     R.id.widget_title,

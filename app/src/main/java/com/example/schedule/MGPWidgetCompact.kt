@@ -30,29 +30,48 @@ class MGPWidgetCompact : AppWidgetProvider() {
 
     companion object {
         private val compactCityMap = mapOf(
-            "Silverstone" to "Silverstn",
-            "Phillip Island" to "Philip Isld",
-            "Sachsenring" to "Sachsen",
-            "Spielberg" to "Spielbg",
-            "Portimão" to "Portimao",
-            "Mandalika" to "Mandali",
-            "Valencia" to "Valencia",   // already fits
-            "Catalunya" to "Catalunya",
-            "Misano" to "Misano",
-            "Buriram" to "Buriram",
-            "Goiânia" to "Goiania",
-            "Le Mans" to "Le Mans",
-            "Sepang" to "Sepang",
-            "Aragón" to "Aragon",
-            "Motegi" to "Motegi",
-            "Lusail" to "Lusail",
-            "Assen" to "Assen",
-            "Jerez" to "Jerez",
-            "Brno" to "Brno",
-            "Austin" to "Austin",
-            "Mugello" to "Mugello",
-            "Balaton" to "Balaton"
+
+            // 4–5 chars (ultra safe)
+            "Most" to "MOST",
+            "Brno" to "BRNO",
+            "Assen" to "ASSEN",
+            "Jerez" to "JEREZ",
+
+            // 6 chars (very safe)
+            "Lusail" to "LUSAIL",
+            "Motegi" to "MOTEGI",
+            "Misano" to "MISANO",
+            "Sepang" to "SEPANG",
+            "Austin" to "AUSTIN",
+            "Aragón" to "ARAGON",
+
+            // 7 chars (safe)
+            "Goiânia" to "GOIANIA",
+            "Buriram" to "BURIRAM",
+            "Balaton" to "BALATON",
+            "Estoril" to "ESTORIL",
+            "Mugello" to "MUGELLO",
+            "Cremona" to "CREMONA",
+            "Sachsenring" to "SACHSEN",
+            "Mandalika" to "MANDALI",
+
+            // 8 chars (OEM-safe upper limit)
+            "Spielberg" to "SPIELBG",
+            "Le Mans" to "LEMANS",
+            "Portimão" to "PORTIMAO",
+            "Valencia" to "VALENCIA",
+
+            // Originally risky → safely compacted
+            "Catalunya" to "CATALUN",
+            "Silverstone" to "SILVERST",
+            "Phillip Island" to "PHILLIP",
+            "Donington" to "DONINGTN",
+
+            // SBK specific
+            "Magny-Cours" to "MAGNY"
         )
+
+
 
         fun updateAppWidget(
             context: Context,
@@ -78,6 +97,14 @@ class MGPWidgetCompact : AppWidgetProvider() {
             )
 
             views.setOnClickPendingIntent(R.id.widget_root, refreshPendingIntent)
+            views.setOnClickPendingIntent(R.id.widget_title, refreshPendingIntent)
+            views.setOnClickPendingIntent(R.id.header_row, refreshPendingIntent)
+            views.setOnClickPendingIntent(R.id.widget_date, refreshPendingIntent)
+            views.setOnClickPendingIntent(R.id.widget_countdown, refreshPendingIntent)
+            views.setOnClickPendingIntent(R.id.friday_sessions, refreshPendingIntent)
+            views.setOnClickPendingIntent(R.id.saturday_sessions, refreshPendingIntent)
+            views.setOnClickPendingIntent(R.id.sunday_sessions, refreshPendingIntent)
+
 
             try {
                 // ---------- LOAD RACES ----------
@@ -165,13 +192,12 @@ class MGPWidgetCompact : AppWidgetProvider() {
                     .trim()
 
                 val city =
-                    compactCityMap[cityRaw] ?: cityRaw
-
+                    (compactCityMap[cityRaw] ?: cityRaw).uppercase().take(8)   // hard OEM-safe cap
 
 
                 views.setTextViewText(
                     R.id.widget_title,
-                    city.uppercase()
+                    city
                 )
 
                 // ---------- DATE ----------

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp"
-    android:background="@drawable/widget_gradient_mgp">
+    android:background="@drawable/widget_gradient_mgp"
+    android:clickable="true"
+    android:focusable="false"
+    tools:ignore="KeyboardInaccessibleWidget">
 
     <!-- TITLE -->
     <TextView
@@ -17,7 +21,8 @@
         android:maxLines="1"
         android:ellipsize="end"
         android:textSize="20sp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:includeFontPadding="false" />
 
     <!-- DATE + LIVE (HEADER ROW) -->
     <LinearLayout
@@ -57,7 +62,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="bottom">
 
         <TextView
             android:id="@+id/friday_sessions"

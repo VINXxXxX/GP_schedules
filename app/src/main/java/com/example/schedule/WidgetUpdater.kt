@@ -14,5 +14,9 @@ fun updateAll(context: Context) {
 
     manager.getAppWidgetIds(ComponentName(context, SBKWidget::class.java))
             .forEach { SBKWidget.updateAppWidget(context, manager, it) }
+    manager.getAppWidgetIds(ComponentName(context, MGPWidgetCompact::class.java))
+            .forEach { MGPWidgetCompact.updateAppWidget(context,manager,it) }
+    manager.getAppWidgetIds(ComponentName(context, SBKWidgetCompact::class.java))
+            .forEach { SBKWidgetCompact.updateAppWidget(context,manager,it) }
 }
 }
