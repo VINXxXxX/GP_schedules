@@ -44,25 +44,25 @@ class RaceAdapter(private val races: List<Race>) : RecyclerView.Adapter<RaceAdap
     private var racingRegular: Typeface? = null
     private fun formatLocationForCard(raw: String): String {
 
-        val parts = raw.split(",")
+        val city = raw
+            .substringBefore(",")
+            .trim()
+            .replace(Regex("([a-z])([A-Z])"), "$1 $2")
+            .uppercase()
 
-        val city = parts.firstOrNull()
-            ?.trim()
-            ?.replace(Regex("([a-z])([A-Z])"), "$1 $2") // MagnyCours → Magny Cours
-            ?.uppercase()
-            ?: ""
-
-        val country = parts.getOrNull(1)
-            ?.trim()
+        val country = raw
+            .substringAfter(",", "")
+            .trim()
+            .takeIf { it.isNotEmpty() }
             ?.uppercase()
 
         return if (country != null) {
-            // IMPORTANT: no comma on city line
             "$city\n$country"
         } else {
             city
         }
     }
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
