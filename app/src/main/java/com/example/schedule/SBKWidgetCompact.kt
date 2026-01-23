@@ -29,48 +29,37 @@ class SBKWidgetCompact : AppWidgetProvider() {
     }
 
     companion object {
-        private val compactCityMap = mapOf(
+        private val compactCountryMap = mapOf(
 
-            // 4–5 chars (ultra safe)
-            "Most" to "MOST",
-            "Brno" to "BRNO",
-            "Assen" to "ASSEN",
-            "Jerez" to "JEREZ",
+            // Americas
+            "USA"              to "USA",
+            "United States"    to "USA",
+            "Brazil"           to "BRAZIL",
 
-            // 6 chars (very safe)
-            "Lusail" to "LUSAIL",
-            "Motegi" to "MOTEGI",
-            "Misano" to "MISANO",
-            "Sepang" to "SEPANG",
-            "Austin" to "AUSTIN",
-            "Aragón" to "ARAGON",
+            // Europe (short already)
+            "Spain"            to "SPAIN",
+            "Italy"            to "ITALY",
+            "France"           to "FRANCE",
+            "Germany"          to "GERMANY",
+            "Austria"          to "AUSTRIA",
+            "Hungary"          to "HUNGARY",
+            "Portugal"         to "PORTUGAL",
+            "Netherlands"      to "NETHLNDS",
 
-            // 7 chars (safe)
-            "Goiânia" to "GOIANIA",
-            "Buriram" to "BURIRAM",
-            "Balaton" to "BALATON",
-            "Estoril" to "ESTORIL",
-            "Mugello" to "MUGELLO",
-            "Cremona" to "CREMONA",
-            "Sachsenring" to "SACHSEN",
-            "Mandalika" to "MANDALI",
+            // Europe (variants)
+            "UK"               to "UK",
+            "United Kingdom"   to "UK",
 
-            // 8 chars (OEM-safe upper limit)
-            "Spielberg" to "SPIELBG",
-            "Le Mans" to "LEMANS",
-            "Portimão" to "PORTIMAO",
-            "Valencia" to "VALENCIA",
+            "Czechia"          to "CZECH",
+            "Czech Republic"   to "CZECH",
 
-            // Originally risky → safely compacted
-            "Catalunya" to "CATALUN",
-            "Silverstone" to "SILVERST",
-            "Phillip Island" to "PHILLIP",
-            "Donington" to "DONINGTN",
-
-            // SBK specific
-            "Magny-Cours" to "MAGNY"
+            // Asia / Oceania
+            "Qatar"            to "QATAR",
+            "Japan"            to "JAPAN",
+            "Indonesia"        to "INDONESIA",
+            "Malaysia"         to "MALAYSIA",
+            "Australia"        to "AUSSIE"
         )
-
 
         fun updateAppWidget(
             context: Context,
@@ -175,12 +164,11 @@ class SBKWidgetCompact : AppWidgetProvider() {
 
                 // ---------- TITLE ----------
                 val cityRaw = selectedRace.location
-                    .split(",")
-                    .first()
+                    .substringAfterLast(",")
                     .trim()
 
                 val city =
-                    (compactCityMap[cityRaw] ?: cityRaw).uppercase().take(8)   // hard OEM-safe cap
+                    (compactCountryMap[cityRaw] ?: cityRaw).uppercase().take(8)   // hard OEM-safe cap
 
 
                 views.setTextViewText(
@@ -191,7 +179,7 @@ class SBKWidgetCompact : AppWidgetProvider() {
                 // ---------- DATE ----------
                 views.setTextViewText(
                     R.id.widget_date,
-                    RaceDateFormatter.formatWeekend(selectedFriday)
+                    RaceDateFormatter.formatCompactWeekend(selectedFriday)
                 )
 
                 // ---------- COUNTDOWN / LIVE ----------
@@ -232,8 +220,8 @@ class SBKWidgetCompact : AppWidgetProvider() {
                     val display = when {
                         raw.contains("spr") -> "SPR"
                         raw == "fp1" -> "FP1"
-                        raw == "fp2" -> "PR"
-                        raw == "fp3" -> "FP2"
+                        raw == "fp2" -> "FP2"
+                        raw == "fp3" -> "FP3"
                         raw.contains("race1") -> "R1"
                         raw.contains("race2") -> "R2"
                         raw.contains("sp") -> "SP"

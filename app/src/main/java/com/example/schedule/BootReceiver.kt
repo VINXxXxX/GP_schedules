@@ -10,5 +10,8 @@ class BootReceiver : BroadcastReceiver() {
         if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
             SchedulerCoordinator.init(context)
         }
+        NotificationScheduler.scheduleForNextRace(context)
+
+
     }
 }

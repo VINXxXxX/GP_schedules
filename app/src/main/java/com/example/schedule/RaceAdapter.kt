@@ -75,11 +75,8 @@ class RaceAdapter(private val races: List<Race>) : RecyclerView.Adapter<RaceAdap
             racingBold = Typeface.DEFAULT_BOLD
             racingRegular = Typeface.DEFAULT
         }
-
         return ViewHolder(view)
     }
-
-
     @SuppressLint("SetTextI18n", "UseKtx")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dark = ThemePrefs.isDark(holder.itemView.context)

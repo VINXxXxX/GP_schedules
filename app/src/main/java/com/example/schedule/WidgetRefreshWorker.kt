@@ -13,6 +13,11 @@ class WidgetRefreshWorker(
 
         WidgetUpdater.updateAll(applicationContext)
         SchedulerCoordinator.init(applicationContext)
+
+        // 🔔 Re-schedule notifications
+        NotificationScheduler.scheduleForNextRace(applicationContext)
+
+
         return Result.success()
     }
 }

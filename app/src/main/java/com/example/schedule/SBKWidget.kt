@@ -137,12 +137,12 @@ class SBKWidget : AppWidgetProvider() {
                 // ---------- TITLE ----------
                 val parts = selectedRace.location.split(",")
 
-                val city = parts.getOrNull(0)
+                val city = parts.getOrNull(1)
                     ?.trim()
                     ?.uppercase()
                     ?: ""
 
-                val country = parts.getOrNull(1)
+                val country = parts.getOrNull(0)
                     ?.trim()
                     ?.uppercase()
                     ?: ""

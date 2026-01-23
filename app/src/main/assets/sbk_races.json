@@ -2,11 +2,11 @@
   "races" : [
     {
       "name": "Philip Island Round",
-      "location": "Phillip Island, Australia",
+      "location": "Philip Island, Australia",
       "track": "Philip Island Grand Prix Circuit",
       "round": 1,
       "category": "SBK",
-      "race": "2025-12-19",
+      "race": "2026-01-16",
       "sessions": [
         {
           "sessionName": "fp1",
@@ -46,7 +46,7 @@
       "track": "Autódromo Internacional",
       "round": 2,
       "category": "SBK",
-      "race": "2025-12-26",
+      "race": "2026-01-30",
       "sessions": [
         {
           "sessionName": "fp1",
@@ -162,7 +162,7 @@
     },
     {
       "name": "Autodrom Round",
-      "location": "Czechia, Czechia",
+      "location": "Most, Czechia",
       "track": "Autodrom Most",
       "round": 5,
       "category": "SBK",
@@ -322,7 +322,7 @@
     },
     {
       "name": "Magny-Cours Round",
-      "location": "Magny Cours, France",
+      "location": "Magny cours, France",
       "track": "Circuit de Nevers Magny-Cours",
       "round": 9,
       "category": "SBK",

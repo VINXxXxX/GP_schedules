@@ -8,13 +8,14 @@ import android.util.Log
 class TimeChangeReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+
         Log.d("TimeChange", "Time change detected: ${intent.action}")
 
-        when (intent.action) {
-            Intent.ACTION_TIME_CHANGED,
-            Intent.ACTION_TIMEZONE_CHANGED -> {
-                SchedulerCoordinator.forceRefresh(context)
-            }
-        }
+        // Refresh widgets + alarms
+        SchedulerCoordinator.forceRefresh(context)
+
+        // 🔔 Re-schedule notifications
+        NotificationScheduler.scheduleForNextRace(context)
+
     }
 }

@@ -6,7 +6,7 @@
       "track": "Chang International Circuit",
       "round": 1,
       "category": "MotoGP",
-      "race": "2025-12-19",
+      "race": "2026-01-16",
       "sessions": [
         {
           "sessionName": "fp1",
@@ -37,8 +37,8 @@
           "sessionTime": "01:30 PM"
         }
       ],
-      "slug": "buriram-grand-prix",
-      "localeKey": "buriram-grand-prix"
+    "slug": "buriram-grand-prix",
+    "localeKey": "buriram-grand-prix"
     },
     {
       "name": "Goiania Grand Prix",
@@ -46,7 +46,7 @@
       "track": "Autódromo Internacional Ayrton Senna",
       "round": 2,
       "category": "MotoGP",
-      "race": "2025-12-26",
+      "race": "2026-01-23",
       "sessions": [
         {
           "sessionName": "fp1",
@@ -722,7 +722,7 @@
     },
     {
       "name": "Phillip Island Grand Prix",
-      "location": "Phillip Island, Australia",
+      "location": "Philip Island, Australia",
       "track": "Phillip Island Grand Prix Circuit",
       "round": 19,
       "category": "MotoGP",

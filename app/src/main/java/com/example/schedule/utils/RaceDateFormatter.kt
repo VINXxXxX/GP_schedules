@@ -24,4 +24,24 @@ object RaceDateFormatter {
             "$startDay–$endDay $month"
         }
     }
+    fun formatCompactWeekend(friday: Calendar): String {
+
+        val sunday = (friday.clone() as Calendar).apply {
+            add(Calendar.DAY_OF_MONTH, 2)
+        }
+
+        val startDay = friday.get(Calendar.DAY_OF_MONTH)
+        val endDay = sunday.get(Calendar.DAY_OF_MONTH)
+
+        val month = arrayOf(
+            "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+            "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+        )[sunday.get(Calendar.MONTH)]
+
+        return if (startDay == endDay) {
+            "$startDay\n$month"
+        } else {
+            "$startDay–$endDay\n$month"
+        }
+    }
 }

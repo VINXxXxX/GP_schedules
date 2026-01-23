@@ -144,12 +144,12 @@ class MGPWidget : AppWidgetProvider() {
                 // ---------- TITLE ----------
                 val parts = selectedRace.location.split(",")
 
-                val city = parts.getOrNull(0)
+                val city = parts.getOrNull(1)
                     ?.trim()
                     ?.uppercase()
                     ?: ""
 
-                val country = parts.getOrNull(1)
+                val country = parts.getOrNull(0)
                     ?.trim()
                     ?.uppercase()
                     ?: ""
@@ -256,7 +256,7 @@ class MGPWidget : AppWidgetProvider() {
                         raw == "fp3" -> "FP2"
                         raw == "q1" -> "Q1"
                         raw == "q2" -> "Q2"
-                        raw.contains("race") -> "RACE"
+                        raw.contains("race") -> "RC"
                         else -> s.sessionName.uppercase()
                     }
 

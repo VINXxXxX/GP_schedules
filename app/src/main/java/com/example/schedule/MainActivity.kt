@@ -18,11 +18,13 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("BatteryLife", "UseKtx")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // 🔔 Create notification channel EARLY
+        NotificationChannels.create(this)
+
         setContentView(R.layout.activity_main)
-        val root = findViewById<View>(android.R.id.content)
 
         val gradient = findViewById<View>(R.id.gradientBackground)
-
         val isDark = ThemePrefs.isDark(this)
 
         gradient.setBackgroundResource(
@@ -30,11 +32,17 @@ class MainActivity : AppCompatActivity() {
             else R.drawable.widget_gradient_light
         )
 
+        // ✅ Schedule notifications on app open
+        NotificationScheduler.scheduleForNextRace(this)
 
-        // Schedule alarms & work ONCE
+
+        // Schedule widgets, alarms, work
         SchedulerCoordinator.init(this)
+
+        // OEM battery handling
         BatteryOptimizationHelper.maybeShowPrompt(this)
 
+        // ---------------- UI ----------------
 
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
@@ -46,22 +54,24 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_motogp -> viewPager.currentItem = 0
                 R.id.nav_sbk -> viewPager.currentItem = 1
                 R.id.nav_settings -> viewPager.currentItem = 2
-
             }
             true
         }
 
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                bottomNav.selectedItemId = when (position) {
-                    0 -> R.id.nav_motogp
-                    1 -> R.id.nav_sbk
-                    else -> R.id.nav_settings
+        viewPager.registerOnPageChangeCallback(
+            object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    bottomNav.selectedItemId = when (position) {
+                        0 -> R.id.nav_motogp
+                        1 -> R.id.nav_sbk
+                        else -> R.id.nav_settings
+                    }
                 }
             }
-        })
+        )
 
         // ---------- BATTERY OPTIMIZATION PROMPT (ONE-TIME) ----------
+
         val pm = getSystemService(POWER_SERVICE) as PowerManager
 
         if (!pm.isIgnoringBatteryOptimizations(packageName)
@@ -70,8 +80,8 @@ class MainActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle("Allow background updates")
                 .setMessage(
-                    "To keep race countdown widgets updated daily, " +
-                            "please allow background activity. This is required by Android."
+                    "To keep race notifications and widgets accurate, " +
+                            "please allow background activity."
                 )
                 .setPositiveButton("Allow") { _, _ ->
                     BatteryPrompt.markShown(this)
