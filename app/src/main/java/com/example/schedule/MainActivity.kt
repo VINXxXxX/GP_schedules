@@ -2,6 +2,7 @@ package com.example.schedule
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.PowerManager
@@ -11,19 +12,67 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.schedule.ui.ThemePrefs
+import com.example.schedule.update.UpdateChecker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    @SuppressLint("BatteryLife", "UseKtx")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 🔔 Create notification channel EARLY
         NotificationChannels.create(this)
 
         setContentView(R.layout.activity_main)
 
+        UpdateChecker.checkForUpdate(this, manual = false)
+
+        setupTheme()
+        requestNotificationPermissionIfNeeded()
+        setupUI()
+        maybePromptBatteryOptimization()
+    }
+
+    /* ---------------------------------------------------------- */
+    /* NOTIFICATION FLOW                                          */
+    /* ---------------------------------------------------------- */
+
+    private fun requestNotificationPermissionIfNeeded() {
+
+        // Ask permission if needed
+        NotificationPermissionHelper.maybeRequest(this)
+
+        // If already granted, schedule immediately
+        if (!NotificationPermissionHelper.notificationsDisabled(this)) {
+            scheduleNotifications()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == 2001) {
+            if (grantResults.isNotEmpty() &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED
+            ) {
+                scheduleNotifications()
+            }
+        }
+    }
+
+    private fun scheduleNotifications() {
+        NotificationScheduler.scheduleForNextRace(this)
+        SchedulerCoordinator.init(this)
+    }
+
+    /* ---------------------------------------------------------- */
+    /* THEME                                                      */
+    /* ---------------------------------------------------------- */
+
+    private fun setupTheme() {
         val gradient = findViewById<View>(R.id.gradientBackground)
         val isDark = ThemePrefs.isDark(this)
 
@@ -31,19 +80,45 @@ class MainActivity : AppCompatActivity() {
             if (isDark) R.drawable.widget_gradient_dark
             else R.drawable.widget_gradient_light
         )
+    }
 
-        // ✅ Schedule notifications on app open
-        NotificationScheduler.scheduleForNextRace(this)
+    /* ---------------------------------------------------------- */
+    /* BATTERY OPTIMIZATION                                       */
+    /* ---------------------------------------------------------- */
 
+    @SuppressLint("BatteryLife")
+    private fun maybePromptBatteryOptimization() {
+        val pm = getSystemService(POWER_SERVICE) as PowerManager
 
-        // Schedule widgets, alarms, work
-        SchedulerCoordinator.init(this)
+        if (!pm.isIgnoringBatteryOptimizations(packageName)
+            && BatteryPrompt.shouldShow(this)
+        ) {
+            AlertDialog.Builder(this)
+                .setTitle("Allow background updates")
+                .setMessage(
+                    "To keep race notifications and widgets accurate, " +
+                            "please allow background activity."
+                )
+                .setPositiveButton("Allow") { _, _ ->
+                    BatteryPrompt.markShown(this)
+                    startActivity(
+                        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
+                            data = Uri.parse("package:$packageName")
+                        }
+                    )
+                }
+                .setNegativeButton("Later") { _, _ ->
+                    BatteryPrompt.markShown(this)
+                }
+                .show()
+        }
+    }
 
-        // OEM battery handling
-        BatteryOptimizationHelper.maybeShowPrompt(this)
+    /* ---------------------------------------------------------- */
+    /* UI                                                         */
+    /* ---------------------------------------------------------- */
 
-        // ---------------- UI ----------------
-
+    private fun setupUI() {
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
 
@@ -69,32 +144,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         )
-
-        // ---------- BATTERY OPTIMIZATION PROMPT (ONE-TIME) ----------
-
-        val pm = getSystemService(POWER_SERVICE) as PowerManager
-
-        if (!pm.isIgnoringBatteryOptimizations(packageName)
-            && BatteryPrompt.shouldShow(this)
-        ) {
-            AlertDialog.Builder(this)
-                .setTitle("Allow background updates")
-                .setMessage(
-                    "To keep race notifications and widgets accurate, " +
-                            "please allow background activity."
-                )
-                .setPositiveButton("Allow") { _, _ ->
-                    BatteryPrompt.markShown(this)
-                    startActivity(
-                        Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                            data = Uri.parse("package:$packageName")
-                        }
-                    )
-                }
-                .setNegativeButton("Later") { _, _ ->
-                    BatteryPrompt.markShown(this)
-                }
-                .show()
-        }
     }
 }

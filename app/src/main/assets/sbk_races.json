@@ -1,44 +1,44 @@
 {
   "races" : [
     {
-      "name": "Philip Island Round",
-      "location": "Philip Island, Australia",
-      "track": "Philip Island Grand Prix Circuit",
+      "name": "Phillip Islnd Round",
+      "location": "Phillip Islnd, Australia",
+      "track": "Phillip Islnd Grand Prix Circuit",
       "round": 1,
       "category": "SBK",
-      "race": "2026-01-16",
+      "race": "2026-02-20",
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "05:10 PM"
+          "sessionTime": "05:50 AM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:00 PM"
+          "sessionTime": "10:30 AM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "03:10 PM"
+          "sessionTime": "04:30 AM"
         },
         {
           "sessionName": "sp",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:30 AM"
         },
         {
           "sessionName": "race1",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "10:30 AM"
         },
         {
           "sessionName": "spr",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:30 AM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "07:30 PM"
+          "sessionTime": "10:30 AM"
         }
       ],
-      "slug": "phillip-island-round",
-      "localeKey": "phillip-island-round"
+      "slug": "phillip-Islnd-round",
+      "localeKey": "phillip-Islnd-round"
     },
     {
       "name": "Portimão Round",
@@ -46,35 +46,35 @@
       "track": "Autódromo Internacional",
       "round": 2,
       "category": "SBK",
-      "race": "2026-01-30",
+      "race": "2026-03-27",
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "04:05 PM"
+          "sessionTime": "02:10 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
-        },
-        {
-          "sessionName": "fp3",
-          "sessionTime": "02:30 PM"
-        },
-        {
-          "sessionName": "sp",
-          "sessionTime": "04:30 PM"
-        },
-        {
-          "sessionName": "race1",
           "sessionTime": "07:30 PM"
         },
         {
+          "sessionName": "fp3",
+          "sessionTime": "02:10 PM"
+        },
+        {
+          "sessionName": "sp",
+          "sessionTime": "03:45 PM"
+        },
+        {
+          "sessionName": "race1",
+          "sessionTime": "08:00 PM"
+        },
+        {
           "sessionName": "spr",
-          "sessionTime": "03:30 PM"
+          "sessionTime": "03:40 PM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "06:30 PM"
+          "sessionTime": "08:00 PM"
         }
       ],
       "slug": "portimao-round",
@@ -98,23 +98,23 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "12:30 PM"
+          "sessionTime": "01:10 PM"
         },
         {
           "sessionName": "sp",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "race1",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         },
         {
           "sessionName": "spr",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:40 PM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         }
       ],
       "slug": "assen-round",
@@ -138,23 +138,23 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "12:30 PM"
+          "sessionTime": "01:10 PM"
         },
         {
           "sessionName": "sp",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "race1",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         },
         {
           "sessionName": "spr",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:40 PM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         }
       ],
       "slug": "balaton-round",
@@ -178,23 +178,23 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "12:30 PM"
+          "sessionTime": "01:10 PM"
         },
         {
           "sessionName": "sp",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "race1",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:30 PM"
         },
         {
           "sessionName": "spr",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:40 PM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         }
       ],
       "slug": "autodrom-most-round",
@@ -218,23 +218,23 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "12:30 PM"
+          "sessionTime": "01:10 PM"
         },
         {
           "sessionName": "sp",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "race1",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:30 PM"
         },
         {
           "sessionName": "spr",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:40 PM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "07:30 PM"
+          "sessionTime": "07:00 PM"
         }
       ],
       "slug": "aragon-round",
@@ -258,15 +258,15 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "12:30 PM"
+          "sessionTime": "01:10 PM"
         },
         {
           "sessionName": "sp",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "race1",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         },
         {
           "sessionName": "spr",
@@ -298,7 +298,7 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "01:30 PM"
+          "sessionTime": "02:10 PM"
         },
         {
           "sessionName": "sp",
@@ -306,15 +306,15 @@
         },
         {
           "sessionName": "race1",
-          "sessionTime": "06:30 PM"
+          "sessionTime": "08:00 PM"
         },
         {
           "sessionName": "spr",
-          "sessionTime": "03:30 PM"
+          "sessionTime": "03:40 PM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "06:30 PM"
+          "sessionTime": "08:00 PM"
         }
       ],
       "slug": "donington-round",
@@ -338,23 +338,23 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "12:30 PM"
+          "sessionTime": "01:10 PM"
         },
         {
           "sessionName": "sp",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "race1",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         },
         {
           "sessionName": "spr",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:40 PM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "07:00 PM"
+          "sessionTime": "05:30 PM"
         }
       ],
       "slug": "magny-cours-round",
@@ -378,23 +378,23 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "12:30 PM"
+          "sessionTime": "01:10 PM"
         },
         {
           "sessionName": "sp",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "race1",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         },
         {
           "sessionName": "spr",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:40 PM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         }
       ],
       "slug": "cremona-round",
@@ -410,7 +410,7 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "03:05 PM"
+          "sessionTime": "02:50 PM"
         },
         {
           "sessionName": "fp2",
@@ -418,23 +418,23 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "01:30 PM"
+          "sessionTime": "02:10 PM"
         },
         {
           "sessionName": "sp",
-          "sessionTime": "03:30 PM"
+          "sessionTime": "03:45 PM"
         },
         {
           "sessionName": "race1",
-          "sessionTime": "06:30 PM"
+          "sessionTime": "08:00 PM"
         },
         {
           "sessionName": "spr",
-          "sessionTime": "03:30 PM"
+          "sessionTime": "03:40 PM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "06:30 PM"
+          "sessionTime": "08:00 PM"
         }
       ],
       "slug": "estoril-round",
@@ -458,23 +458,23 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "12:30 PM"
+          "sessionTime": "01:05 PM"
         },
         {
           "sessionName": "sp",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "race1",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         },
         {
           "sessionName": "spr",
-          "sessionTime": "02:30 PM"
+          "sessionTime": "02:40 PM"
         },
         {
           "sessionName": "race2",
-          "sessionTime": "07:30 PM"
+          "sessionTime": "07:00 PM"
         }
       ],
       "slug": "jerez-round",

@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -19,8 +20,6 @@ class SettingsFragment : Fragment() {
 
     private lateinit var motogpSwitch: SwitchMaterial
     private lateinit var sbkSwitch: SwitchMaterial
-    private lateinit var motogpContainer: View
-    private lateinit var sbkContainer: View
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,10 +29,11 @@ class SettingsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
-    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val context = requireContext()
+        val activity = requireActivity()
         val dark = ThemePrefs.isDark(context)
 
         // ------------------ VIEWS ------------------
@@ -41,9 +41,6 @@ class SettingsFragment : Fragment() {
         val updateButton = view.findViewById<TextView>(R.id.checkUpdateButton)
         val themeContainer = view.findViewById<View>(R.id.themeToggleContainer)
         val themeSwitch = view.findViewById<SwitchMaterial>(R.id.themeSwitch)
-
-        motogpContainer = view.findViewById(R.id.motogpNotifyContainer)
-        sbkContainer = view.findViewById(R.id.sbkNotifyContainer)
 
         motogpSwitch = view.findViewById(R.id.motogpNotifySwitch)
         sbkSwitch = view.findViewById(R.id.sbkNotifySwitch)
@@ -68,55 +65,73 @@ class SettingsFragment : Fragment() {
         themeSwitch.isChecked = !dark
         themeSwitch.setOnCheckedChangeListener { _, isChecked ->
             ThemePrefs.setDark(context, !isChecked)
-            requireActivity().recreate()
+            activity.recreate()
         }
 
-        // ------------------ SWITCH STYLING ------------------
+        // ------------------ STYLING ------------------
         styleSwitch(themeSwitch, dark)
         styleSwitch(motogpSwitch, dark)
         styleSwitch(sbkSwitch, dark)
 
-        // ------------------ BACKGROUNDS ------------------
         val bgRes =
             if (dark) R.drawable.bg_racing_button_dark
             else R.drawable.bg_racing_button_light
 
         updateButton.setBackgroundResource(bgRes)
         themeContainer.setBackgroundResource(bgRes)
-        motogpContainer.setBackgroundResource(bgRes)
-        sbkContainer.setBackgroundResource(bgRes)
 
-        // ------------------ TEXT COLORS + FONTS ------------------
         val textColor = if (dark) Color.WHITE else Color.BLACK
 
-        versionText.setTextColor(textColor)
-        versionText.typeface = racingRegular
-        versionText.letterSpacing = 0.08f
+        versionText.apply {
+            text = "APP VERSION  ${context.packageManager.getPackageInfo(context.packageName, 0).versionName}"
+            setTextColor(textColor)
+            typeface = racingRegular
+            letterSpacing = 0.08f
+        }
 
-        updateButton.setTextColor(textColor)
-        updateButton.typeface = racingBold
+        updateButton.apply {
+            setTextColor(textColor)
+            typeface = racingBold
+            setOnClickListener {
+                UpdateChecker.checkForUpdate(activity, manual = true)
+            }
+        }
 
         lightModeLabel.setTextColor(textColor)
         lightModeLabel.typeface = racingBold
-
         motogpLabel.setTextColor(textColor)
         motogpLabel.typeface = racingBold
-
         sbkLabel.setTextColor(textColor)
         sbkLabel.typeface = racingBold
 
-        // ------------------ VERSION ------------------
-        val versionName =
-            context.packageManager.getPackageInfo(context.packageName, 0).versionName
-        versionText.text = "APP VERSION  $versionName"
+        // ------------------ TOGGLE STATE ------------------
+        refreshNotificationToggles()
 
-        // ------------------ UPDATE BUTTON ------------------
-        updateButton.setOnClickListener {
-            UpdateChecker.checkForUpdate(requireActivity(), manual = true)
+        // ------------------ TOGGLE CLICK (BLOCKED ONLY) ------------------
+
+        motogpSwitch.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP &&
+                NotificationPermissionHelper.notificationsDisabled(requireContext())
+            ) {
+                showNotificationPermissionDialog()
+                true   // 🚫 consume → no toggle
+            } else {
+                false  // allow normal toggle
+            }
         }
 
-        // ------------------ NOTIFICATION TOGGLES ------------------
-        refreshNotificationToggles()
+        sbkSwitch.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP &&
+                NotificationPermissionHelper.notificationsDisabled(requireContext())
+            ) {
+                showNotificationPermissionDialog()
+                true
+            } else {
+                false
+            }
+        }
+
+        // ------------------ REAL STATE CHANGE ------------------
 
         motogpSwitch.setOnCheckedChangeListener { _, enabled ->
             NotificationPrefs.setMotoGP(context, enabled)
@@ -126,41 +141,6 @@ class SettingsFragment : Fragment() {
         sbkSwitch.setOnCheckedChangeListener { _, enabled ->
             NotificationPrefs.setSBK(context, enabled)
             NotificationScheduler.scheduleForNextRace(context)
-        }
-
-        // ------------------ PERMISSION HANDLING ------------------
-
-        motogpContainer.setOnClickListener {
-            if (!NotificationPermissionHelper.hasPermission(context)) {
-                showNotificationPermissionDialog()
-            }
-        }
-
-        sbkContainer.setOnClickListener {
-            if (!NotificationPermissionHelper.hasPermission(context)) {
-                showNotificationPermissionDialog()
-            }
-        }
-
-        // Intercept switch taps BEFORE Android blocks them
-        motogpSwitch.setOnTouchListener { v, _ ->
-            if (!NotificationPermissionHelper.hasPermission(context)) {
-                showNotificationPermissionDialog()
-                v.performClick()
-                true
-            } else {
-                false
-            }
-        }
-
-        sbkSwitch.setOnTouchListener { v, _ ->
-            if (!NotificationPermissionHelper.hasPermission(context)) {
-                showNotificationPermissionDialog()
-                v.performClick()
-                true
-            } else {
-                false
-            }
         }
     }
 
@@ -175,10 +155,8 @@ class SettingsFragment : Fragment() {
 
     private fun refreshNotificationToggles() {
         val context = requireContext()
-        val hasPermission = NotificationPermissionHelper.hasPermission(context)
-
-        motogpSwitch.isEnabled = hasPermission
-        sbkSwitch.isEnabled = hasPermission
+        val hasPermission =
+            !NotificationPermissionHelper.notificationsDisabled(context)
 
         motogpSwitch.isChecked =
             hasPermission && NotificationPrefs.isMotoGPEnabled(context)
@@ -186,10 +164,11 @@ class SettingsFragment : Fragment() {
         sbkSwitch.isChecked =
             hasPermission && NotificationPrefs.isSBKEnabled(context)
 
-        val alpha = if (hasPermission) 1f else 0.5f
+        val alpha = if (hasPermission) 1f else 0.6f
         motogpSwitch.alpha = alpha
         sbkSwitch.alpha = alpha
     }
+
 
     private fun styleSwitch(
         switch: SwitchMaterial,
@@ -208,7 +187,7 @@ class SettingsFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle("Enable notifications")
             .setMessage(
-                "Enable notifications in system settings to receive MotoGP and SBK race alerts."
+                "Notifications are blocked. Enable them in system settings to receive MotoGP and SBK alerts."
             )
             .setPositiveButton("Open settings") { _, _ ->
                 NotificationPermissionHelper.openSettings(requireActivity())

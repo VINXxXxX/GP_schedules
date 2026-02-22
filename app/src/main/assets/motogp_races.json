@@ -6,7 +6,7 @@
       "track": "Chang International Circuit",
       "round": 1,
       "category": "MotoGP",
-      "race": "2026-01-16",
+      "race": "2026-02-27",
       "sessions": [
         {
           "sessionName": "fp1",
@@ -14,7 +14,7 @@
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "01:00 PM"
+          "sessionTime": "01:30 PM"
         },
         {
           "sessionName": "fp3",
@@ -46,27 +46,27 @@
       "track": "Autódromo Internacional Ayrton Senna",
       "round": 2,
       "category": "MotoGP",
-      "race": "2026-01-23",
+      "race": "2026-03-20",
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "10:15 PM"
+          "sessionTime": "07:35 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "01:30 AM"
+          "sessionTime": "11:50 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "09:00 PM"
+          "sessionTime": "06:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "10:40 PM"
+          "sessionTime": "07:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "11:05 PM"
+          "sessionTime": "07:45 PM"
         },
         {
           "sessionName": "sprint",
@@ -74,7 +74,7 @@
         },
         {
           "sessionName": "race",
-          "sessionTime": "10:30 PM"
+          "sessionTime": "11:30 PM"
         }
       ],
       "slug": "goiania-grand-prix",
@@ -90,31 +90,31 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "11:15 PM"
+          "sessionTime": "09:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "02:40 AM"
+          "sessionTime": "01:30 AM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "10:00 PM"
+          "sessionTime": "08:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "11:05 PM"
+          "sessionTime": "09:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "11:30 PM"
+          "sessionTime": "09:45 PM"
         },
         {
           "sessionName": "sprint",
-          "sessionTime": "12:00 AM"
+          "sessionTime": "01:30 AM"
         },
         {
           "sessionName": "race",
-          "sessionTime": "12:00 AM"
+          "sessionTime": "01:30 AM"
         }
       ],
       "slug": "austin-grand-prix",
@@ -130,31 +130,31 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "07:00 PM"
+          "sessionTime": "06:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "10:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "05:40 PM"
+          "sessionTime": "05:30 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "06:40 PM"
+          "sessionTime": "06:10 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "07:05 PM"
+          "sessionTime": "06:35 PM"
         },
         {
           "sessionName": "sprint",
-          "sessionTime": "07:30 PM"
+          "sessionTime": "10:30 PM"
         },
         {
           "sessionName": "race",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "10:30 PM"
         }
       ],
       "slug": "lusail-grand-prix",
@@ -170,23 +170,23 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "05:15 PM"
+          "sessionTime": "02:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "06:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "04:00 PM"
+          "sessionTime": "01:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "05:40 PM"
+          "sessionTime": "02:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "06:05 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "sprint",
@@ -210,23 +210,23 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "05:15 PM"
+          "sessionTime": "02:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "06:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "04:00 PM"
+          "sessionTime": "01:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "05:40 PM"
+          "sessionTime": "02:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "06:05 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "sprint",
@@ -242,8 +242,8 @@
     },
     {
       "name": "Barcelona Grand Prix",
-      "location": "Catalunya, Spain",
-      "track": "Circuit de Barcelona",
+      "location": "CATALONIA, Spain",
+      "track": "Circuit de Barcelona Catalunya",
       "round": 7,
       "category": "MotoGP",
       "race": "2026-05-15",
@@ -290,23 +290,23 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "05:15 PM"
+          "sessionTime": "02:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "06:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "04:00 PM"
+          "sessionTime": "01:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "05:40 PM"
+          "sessionTime": "02:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "06:05 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "sprint",
@@ -330,23 +330,23 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "05:15 PM"
+          "sessionTime": "02:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "06:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "04:00 PM"
+          "sessionTime": "01:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "05:40 PM"
+          "sessionTime": "02:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "06:05 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "sprint",
@@ -362,7 +362,7 @@
     },
     {
       "name": "Brno Grand Prix",
-      "location": "Brno, Czech Republic",
+      "location": "Brno, Czechia",
       "track": "Automotodrom Brno",
       "round": 10,
       "category": "MotoGP",
@@ -370,23 +370,23 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "05:15 PM"
+          "sessionTime": "02:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "06:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "04:00 PM"
+          "sessionTime": "01:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "05:40 PM"
+          "sessionTime": "02:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "06:05 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "sprint",
@@ -410,23 +410,23 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "05:15 PM"
+          "sessionTime": "02:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "06:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "04:00 PM"
+          "sessionTime": "01:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "05:40 PM"
+          "sessionTime": "02:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "06:05 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "sprint",
@@ -450,23 +450,23 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "05:15 PM"
+          "sessionTime": "02:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "06:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "04:00 PM"
+          "sessionTime": "01:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "05:40 PM"
+          "sessionTime": "02:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "06:05 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "sprint",
@@ -482,7 +482,7 @@
     },
     {
       "name": "Silverstone Grand Prix",
-      "location": "Silverstone, UK",
+      "location": "Silverstone, BRITAIN",
       "track": "Silverstone Circuit",
       "round": 13,
       "category": "MotoGP",
@@ -490,31 +490,31 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "06:15 PM"
+          "sessionTime": "04:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "09:30 PM"
+          "sessionTime": "08:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "05:00 PM"
+          "sessionTime": "03:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "06:40 PM"
+          "sessionTime": "04:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "07:05 PM"
+          "sessionTime": "04:45 PM"
         },
         {
           "sessionName": "sprint",
-          "sessionTime": "07:30 PM"
+          "sessionTime": "08:30 PM"
         },
         {
           "sessionName": "race",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:00 PM"
         }
       ],
       "slug": "silverstone-grand-prix",
@@ -530,23 +530,23 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "05:15 PM"
+          "sessionTime": "02:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "06:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "04:00 PM"
+          "sessionTime": "01:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "05:40 PM"
+          "sessionTime": "02:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "06:05 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "sprint",
@@ -610,23 +610,23 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "05:15 PM"
+          "sessionTime": "02:15 PM"
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "08:30 PM"
+          "sessionTime": "06:30 PM"
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "04:00 PM"
+          "sessionTime": "01:40 PM"
         },
         {
           "sessionName": "q1",
-          "sessionTime": "05:40 PM"
+          "sessionTime": "02:20 PM"
         },
         {
           "sessionName": "q2",
-          "sessionTime": "06:05 PM"
+          "sessionTime": "02:45 PM"
         },
         {
           "sessionName": "sprint",
@@ -714,16 +714,16 @@
         },
         {
           "sessionName": "race",
-          "sessionTime": "12:30 PM"
+          "sessionTime": "11:30 AM"
         }
       ],
       "slug": "mandalika-grand-prix",
       "localeKey": "mandalika-grand-prix"
     },
     {
-      "name": "Phillip Island Grand Prix",
-      "location": "Philip Island, Australia",
-      "track": "Phillip Island Grand Prix Circuit",
+      "name": "Phillip Islnd Grand Prix",
+      "location": "Phillip Islnd, Australia",
+      "track": "Phillip Islnd Grand Prix Circuit",
       "round": 19,
       "category": "MotoGP",
       "race": "2026-10-23",
@@ -757,8 +757,8 @@
           "sessionTime": "08:30 AM"
         }
       ],
-      "slug": "phillip-island-grand-prix",
-      "localeKey": "phillip-island-grand-prix"
+      "slug": "phillip-Islnd-grand-prix",
+      "localeKey": "phillip-Islnd-grand-prix"
     },
     {
       "name": "Sepang Grand Prix",
@@ -766,7 +766,7 @@
       "track": "Sepang International Circuit",
       "round": 20,
       "category": "MotoGP",
-      "race": "2026-10-31",
+      "race": "2026-10-30",
       "sessions": [
         {
           "sessionName": "fp1",
@@ -870,7 +870,7 @@
         },
         {
           "sessionName": "sprint",
-          "sessionTime": "05:30 PM"
+          "sessionTime": "07:30 PM"
         },
         {
           "sessionName": "race",

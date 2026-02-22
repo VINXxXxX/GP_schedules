@@ -8,7 +8,7 @@ import android.os.Build
 
 object NotificationChannels {
 
-    const val RACE_ALERTS = "race_alerts"
+    const val RACE_ALERTS = "race_alerts_v2"
 
     fun create(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -21,30 +21,45 @@ object RaceSelector {
         val races =
             (Gson().fromJson<Map<String, List<Race>>>(json, type)["races"]
                 ?: emptyList())
-                .sortedBy { it.race }
+                .sortedBy { it.fridayDate().timeInMillis }
 
         if (races.isEmpty()) return null
 
-        val today = Calendar.getInstance().apply {
+        val now = Calendar.getInstance()
+
+        for (race in races) {
+            val monday = raceWeekMonday(race.fridayDate())
+            val endOfWeekend = (monday.clone() as Calendar).apply {
+                add(Calendar.DAY_OF_MONTH, 6) // Sunday end
+                set(Calendar.HOUR_OF_DAY, 23)
+                set(Calendar.MINUTE, 59)
+                set(Calendar.SECOND, 59)
+                set(Calendar.MILLISECOND, 999)
+            }
+
+            // ✅ ONLY Monday → Sunday is race week
+            if (now.timeInMillis in monday.timeInMillis..endOfWeekend.timeInMillis) {
+                return race
+            }
+
+            // ✅ Before Monday → upcoming race
+            if (now.before(monday)) {
+                return race
+            }
+        }
+
+        return null
+    }
+
+    private fun raceWeekMonday(friday: Calendar): Calendar =
+        (friday.clone() as Calendar).apply {
+            while (get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+                add(Calendar.DAY_OF_MONTH, -1)
+            }
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
-
-        for (race in races) {
-            val friday = race.fridayDate()
-            val mondayAfter = (friday.clone() as Calendar).apply {
-                add(Calendar.DAY_OF_MONTH, 3)
-            }
-
-            if (today.timeInMillis < friday.timeInMillis ||
-                today.timeInMillis in friday.timeInMillis until mondayAfter.timeInMillis
-            ) {
-                return race
-            }
-        }
-
-        return races.last()
-    }
 }
+

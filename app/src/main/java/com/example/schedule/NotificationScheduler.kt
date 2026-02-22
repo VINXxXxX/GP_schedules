@@ -1,5 +1,8 @@
+@file:Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+
 package com.example.schedule
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -24,26 +27,18 @@ object NotificationScheduler {
                 RaceSelector.getNextRace(context, false)
             else null
 
-        // -------- RACE WEEK --------
-        if (motoRace != null && sbkRace != null &&
-            sameDay(motoRace.fridayDate(), sbkRace.fridayDate())
-        ) {
-            scheduleCombinedRaceWeek(context, motoRace, sbkRace)
-        } else {
-            motoRace?.let { scheduleSingleRaceWeek(context, it, true) }
-            sbkRace?.let { scheduleSingleRaceWeek(context, it, false) }
-        }
+        motoRace?.let { scheduleRaceWeek(context, it, true) }
+        sbkRace?.let { scheduleRaceWeek(context, it, false) }
 
-        // -------- DAILY --------
         motoRace?.let { scheduleDaily(context, it, true) }
         sbkRace?.let { scheduleDaily(context, it, false) }
     }
 
     /* ============================================================
-       RACE WEEK (MONDAY 12:00 AM)
+       RACE WEEK — MONDAY ONLY
        ============================================================ */
 
-    private fun scheduleSingleRaceWeek(
+    private fun scheduleRaceWeek(
         context: Context,
         race: Race,
         isMotoGP: Boolean
@@ -51,42 +46,27 @@ object NotificationScheduler {
         val friday = race.fridayDate()
         val monday = raceWeekMonday(friday)
 
-        if (isPastDay(monday)) return
+        // 🔒 ONLY schedule on Monday of race week
+        if (monday.before(Calendar.getInstance())) return
 
 
+        val raceId = race.round * 100 + if (isMotoGP) 1 else 2
+        if (RaceWeekGuard.alreadyNotified(context, raceId)) return
 
         schedule(
             context,
-            race.round * 100 + if (isMotoGP) 1 else 2,
+            raceId,
             monday,
             series(isMotoGP, race),
             "Race week — ${formatDayMonth(friday)}"
         )
+
+        RaceWeekGuard.markNotified(context, raceId)
     }
 
-    private fun scheduleCombinedRaceWeek(
-        context: Context,
-        moto: Race,
-        sbk: Race
-    ) {
-        val friday = moto.fridayDate()
-        val monday = raceWeekMonday(friday)
-
-        if (isPastDay(monday)) return
-
-        schedule(
-            context,
-            999_999,
-            monday,
-            "Race week",
-            "MotoGP • ${moto.location.substringAfter(",").uppercase()}\n" +
-                    "SBK • ${sbk.location.substringAfter(",").uppercase()}\n" +
-                    formatDayMonth(friday)
-        )
-    }
 
     /* ============================================================
-       DAILY NOTIFICATIONS (RULE BASED)
+       DAILY NOTIFICATIONS
        ============================================================ */
 
     private fun scheduleDaily(
@@ -97,7 +77,8 @@ object NotificationScheduler {
         val friday = race.fridayDate()
         val now = Calendar.getInstance()
 
-        for (offset in 0..2) { // Fri, Sat, Sun
+        for (offset in 0..2) {
+
             val notifyAt = (friday.clone() as Calendar).apply {
                 add(Calendar.DAY_OF_MONTH, offset)
                 set(Calendar.HOUR_OF_DAY, 0)
@@ -109,22 +90,17 @@ object NotificationScheduler {
             if (notifyAt.before(now)) continue
 
             val session =
-                pickSessionForDay(race.sessions, offset, isMotoGP)
-                    ?: continue
+                pickSessionForDay(race.sessions, offset, isMotoGP) ?: continue
 
             val sessionTime = session.toLocalCalendar(race)
 
-            // 🔑 LABEL OVERRIDE
             val label = when {
                 isMotoGP && offset == 0 -> "FP1"
                 isMotoGP && offset == 1 -> "FP2"
-                isMotoGP && offset == 2 -> "RACE"
-
+                isMotoGP -> "RACE"
                 !isMotoGP && offset == 0 -> "FP1"
                 !isMotoGP && offset == 1 -> "FP3"
-                !isMotoGP && offset == 2 -> "SPR"
-
-                else -> session.sessionName.uppercase()
+                else -> "SPR"
             }
 
             val id =
@@ -143,7 +119,84 @@ object NotificationScheduler {
     }
 
     /* ============================================================
-       SESSION PICKER (TIME SOURCE ONLY)
+       HELPERS
+       ============================================================ */
+
+    private fun raceWeekMonday(friday: Calendar): Calendar =
+        (friday.clone() as Calendar).apply {
+            while (get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+                add(Calendar.DAY_OF_MONTH, -1)
+            }
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+
+    private fun series(isMotoGP: Boolean, race: Race): String =
+        (if (isMotoGP) "MotoGP" else "SBK") +
+                " • " + race.location.substringAfter(",").uppercase()
+
+    private fun dayName(cal: Calendar): String =
+        cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)
+
+    /* ============================================================
+       CORE ALARM
+       ============================================================ */
+
+    @SuppressLint("ScheduleExactAlarm")
+    fun schedule(
+        context: Context,
+        id: Int,
+        time: Calendar,
+        title: String,
+        message: String
+    ) {
+        val alarmManager =
+            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val intent = Intent(context, RaceNotificationReceiver::class.java).apply {
+            putExtra("title", title)
+            putExtra("message", message)
+            putExtra("id", id)
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            id,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+                alarmManager.canScheduleExactAlarms()
+            ) {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    time.timeInMillis,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.setAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    time.timeInMillis,
+                    pendingIntent
+                )
+            }
+        } catch (e: Exception) {
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                time.timeInMillis,
+                pendingIntent
+            )
+        }
+    }
+
+
+
+    /* ============================================================
+       SESSION PICKER
        ============================================================ */
 
     private fun pickSessionForDay(
@@ -159,82 +212,9 @@ object NotificationScheduler {
 
         return when (dayOffset) {
             0 -> find("fp1")
-            1 -> find("fp3")        // FP3 time used as FP2 for MotoGP
+            1 -> find("fp3")
             2 -> if (isMotoGP) find("race") else find("spr")
             else -> null
         }
     }
-
-    /* ============================================================
-       CORE ALARM
-       ============================================================ */
-
-    private fun schedule(
-        context: Context,
-        id: Int,
-        time: Calendar,
-        title: String,
-        message: String
-    ) {
-        val alarmManager =
-            context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
-            !alarmManager.canScheduleExactAlarms()
-        ) return
-
-        val intent = Intent(context, RaceNotificationReceiver::class.java).apply {
-            putExtra("title", title)
-            putExtra("message", message)
-            putExtra("id", id)
-        }
-
-        val pi = PendingIntent.getBroadcast(
-            context,
-            id,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            time.timeInMillis,
-            pi
-        )
-    }
-
-    /* ============================================================
-       HELPERS
-       ============================================================ */
-
-    private fun series(isMotoGP: Boolean, race: Race): String =
-        (if (isMotoGP) "MotoGP" else "SBK") +
-                " • " + race.location.substringAfter(",").uppercase()
-
-    private fun dayName(cal: Calendar): String =
-        cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)
-
-    private fun raceWeekMonday(friday: Calendar): Calendar =
-        (friday.clone() as Calendar).apply {
-            // Move back to Monday of the SAME week
-            while (get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
-                add(Calendar.DAY_OF_MONTH, -1)
-            }
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
-    private fun isPastDay(cal: Calendar): Boolean {
-        val today = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
-        return cal.before(today)
-    }
-    private fun sameDay(a: Calendar, b: Calendar): Boolean =
-        a.get(Calendar.YEAR) == b.get(Calendar.YEAR) &&
-                a.get(Calendar.DAY_OF_YEAR) == b.get(Calendar.DAY_OF_YEAR)
 }

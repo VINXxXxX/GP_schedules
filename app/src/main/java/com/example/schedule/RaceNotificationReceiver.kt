@@ -1,5 +1,6 @@
 package com.example.schedule
 
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -13,7 +14,7 @@ class RaceNotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
 
-        // Android 13+ permission guard
+        // ---------- ANDROID 13+ PERMISSION CHECK ----------
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val granted =
                 ContextCompat.checkSelfPermission(
@@ -28,6 +29,16 @@ class RaceNotificationReceiver : BroadcastReceiver() {
         val message = intent.getStringExtra("message") ?: return
         val id = intent.getIntExtra("id", 0)
 
+        // ---------- TAP ACTION (OPEN APP) ----------
+        val openIntent = Intent(context, MainActivity::class.java)
+        val contentPendingIntent = PendingIntent.getActivity(
+            context,
+            id,
+            openIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        // ---------- BUILD NOTIFICATION ----------
         val builder = NotificationCompat.Builder(
             context,
             NotificationChannels.RACE_ALERTS
@@ -35,6 +46,7 @@ class RaceNotificationReceiver : BroadcastReceiver() {
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(title)
             .setAutoCancel(true)
+            .setContentIntent(contentPendingIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         // ----- MULTI-LINE SUPPORT -----
@@ -52,5 +64,8 @@ class RaceNotificationReceiver : BroadcastReceiver() {
 
         NotificationManagerCompat.from(context)
             .notify(id, builder.build())
+
+        // ---------- CRITICAL: RESCHEDULE NEXT ----------
+        NotificationScheduler.scheduleForNextRace(context)
     }
 }

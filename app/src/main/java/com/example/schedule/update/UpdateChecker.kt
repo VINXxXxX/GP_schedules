@@ -27,12 +27,8 @@ object UpdateChecker {
                 connection.connectTimeout = 8000
                 connection.readTimeout = 8000
 
-                // 🔴 REQUIRED by GitHub
                 connection.setRequestProperty("User-Agent", "GP-Schedule-App")
-                connection.setRequestProperty(
-                    "Accept",
-                    "application/vnd.github+json"
-                )
+                connection.setRequestProperty("Accept", "application/vnd.github+json")
 
                 val response =
                     connection.inputStream.bufferedReader().use { it.readText() }
@@ -58,7 +54,6 @@ object UpdateChecker {
                     }
 
                 activity.runOnUiThread {
-
                     if (latestVersionCode > currentVersionCode) {
                         showUpdateDialog(activity, release)
                     } else if (manual) {
@@ -71,7 +66,6 @@ object UpdateChecker {
                 }
 
             } catch (e: Exception) {
-                // ✅ SHOW FAILURE FEEDBACK
                 if (manual) {
                     activity.runOnUiThread {
                         Toast.makeText(
@@ -84,6 +78,7 @@ object UpdateChecker {
             }
         }.start()
     }
+
 
     @SuppressLint("UseKtx")
     private fun showUpdateDialog(
