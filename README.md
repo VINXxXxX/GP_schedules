@@ -1,78 +1,132 @@
 # MotoGP & SBK Schedule Widgets 🏁
 
-Android application that provides **MotoGP and WorldSBK race schedules**
-via **home screen widgets** and an **in-app race calendar**.
+Android application providing **MotoGP** and **WorldSBK** race schedules
+through **home screen widgets** and an **in-app race calendar**.
 
-The app focuses on **accuracy, reliability, and a clean racing-focused UI**, with no ads or tracking.
+Built with a focus on:
+
+* Accuracy
+* Reliability
+* Clean racing-focused UI
+* Zero ads. Zero tracking.
 
 ---
 
 ## ✨ Features
 
-- 📅 Upcoming MotoGP & WorldSBK race schedules  
-- ⏱ Local timezone session timings  
-- 🕛 Automatic midnight refresh  
-- 🔄 Updates after reboot & time/timezone changes  
-- 🧩 Resizable home screen widgets  
-- 🎴 Interactive race cards with flip animation  
-- 🌗 Manual **Light / Dark theme toggle** (Dark default)  
-- 🔔 In-app **Check for Updates** via GitHub Releases  
-- 📱 Clean racing-style Material UI with custom fonts  
+* 📅 Upcoming MotoGP & WorldSBK race schedules
+* ⏱ Automatic local timezone conversion
+* 🕛 Exact midnight refresh (next race auto-switch)
+* 🔄 Auto re-sync after reboot & time/timezone changes
+* 🧩 Resizable home screen widgets
+* 🎴 Interactive race cards with flip animation
+* 🌗 Manual Light / Dark theme toggle (Dark default)
+* 🔔 In-app Check for Updates (GitHub Releases)
+* 🎨 Racing-style Material UI with custom fonts
+* 🛡 Race Week Guard (prevents outdated race notifications)
+
+---
+
+## 🔔 Smart Notification System
+
+* Session-based race alerts
+* Exact alarm scheduling (AlarmManager)
+* Android 13+ notification permission handling
+* Boot-safe rescheduling
+* Time & timezone change recovery
+* Duplicate notification prevention
+* Battery optimization guidance prompt
+
+Notifications are designed to be reliable even under aggressive background restrictions.
 
 ---
 
 ## 🧩 Widgets
 
-- **MotoGP Widget** – Shows upcoming MotoGP race & sessions  
-- **SBK Widget** – Shows upcoming WorldSBK race & sessions  
+### MotoGP Widget
 
-Widgets intelligently switch to the **next race after a race weekend completes**.
+Displays:
+
+* Upcoming MotoGP race
+* All weekend sessions
+* Auto-switches after race weekend ends
+
+### SBK Widget
+
+Displays:
+
+* Upcoming WorldSBK race
+* Weekend sessions
+* Automatic race progression
+
+Widgets intelligently refresh:
+
+* At midnight
+* After reboot
+* After time/timezone change
+* Via manual refresh
 
 ---
 
 ## 🎨 UI & Theming
 
-- Racing-style gradients and buttons  
-- Theme-aware card backgrounds and text colors  
-- Consistent custom racing fonts across the app  
+* Theme-aware gradient backgrounds
+* Racing-style buttons with ripple effects
+* Adaptive outlines and toggle styling
+* Improved light mode readability
+* Consistent racing fonts across the app
+* Instant theme switch without color glitches
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Language:** Kotlin  
-- **UI:** XML, Material Components  
-- **Architecture:** AppWidgetProvider + WorkManager + AlarmManager  
-- **Data:** Local JSON assets  
-- **Background Tasks:**  
-  - AlarmManager (exact midnight updates)  
-  - WorkManager (fallback & reliability)  
+* **Language:** Kotlin
+* **UI:** XML + Material Components
+* **Architecture:**
+
+  * AppWidgetProvider
+  * AlarmManager (exact scheduling)
+  * WorkManager (fallback reliability layer)
+* **Data Source:** Local JSON assets
+* **Receivers:**
+
+  * Boot completed
+  * Time change
+  * Timezone change
+
+Designed for maximum scheduling resilience across Android versions.
 
 ---
 
 ## 🔄 Update Logic
 
-- Midnight exact alarm (Android 12+ supported)  
-- Device reboot handling  
-- Time & timezone change handling  
-- Manual force refresh supported  
-- In-app update checks via GitHub Releases  
+* Exact midnight alarm (Android 12+ compliant)
+* Automatic rescheduling after reboot
+* Time & timezone change detection
+* Manual force refresh supported
+* In-app update check via GitHub Releases
 
 ---
 
 ## 🔒 Privacy
 
-- No ads  
-- No analytics  
-- Open-source  
+* No ads
+* No analytics
+* No tracking
+* No user data collection
+* No unnecessary permissions
+
+Core functionality does not require internet access.
 
 ---
 
 ## 📦 Download
 
-👉 [Download the latest beta APK](https://github.com/VINXxXxX/GP_schedules/releases)
+👉 **Latest APK:**
+[https://github.com/VINXxXxX/GP_schedules/releases](https://github.com/VINXxXxX/GP_schedules/releases)
 
-> ⚠️ This app is distributed via GitHub Releases and is **not available on Google Play Store**.  
+> ⚠️ Not available on Google Play Store
 > Users must enable **Install unknown apps** to install the APK.
 
 ---
