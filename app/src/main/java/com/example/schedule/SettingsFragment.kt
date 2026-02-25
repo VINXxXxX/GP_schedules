@@ -1,11 +1,11 @@
 package com.example.schedule
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -37,10 +37,14 @@ class SettingsFragment : Fragment() {
         val dark = ThemePrefs.isDark(context)
 
         // ------------------ VIEWS ------------------
+
         val versionText = view.findViewById<TextView>(R.id.versionText)
         val updateButton = view.findViewById<TextView>(R.id.checkUpdateButton)
         val themeContainer = view.findViewById<View>(R.id.themeToggleContainer)
         val themeSwitch = view.findViewById<SwitchMaterial>(R.id.themeSwitch)
+
+        val motogpContainer = view.findViewById<View>(R.id.motogpNotifyContainer)
+        val sbkContainer = view.findViewById<View>(R.id.sbkNotifyContainer)
 
         motogpSwitch = view.findViewById(R.id.motogpNotifySwitch)
         sbkSwitch = view.findViewById(R.id.sbkNotifySwitch)
@@ -50,6 +54,7 @@ class SettingsFragment : Fragment() {
         val lightModeLabel = view.findViewById<TextView>(R.id.lightModeLabel)
 
         // ------------------ LOAD FONTS ------------------
+
         var racingBold: Typeface
         var racingRegular: Typeface
 
@@ -62,6 +67,7 @@ class SettingsFragment : Fragment() {
         }
 
         // ------------------ THEME TOGGLE ------------------
+
         themeSwitch.isChecked = !dark
         themeSwitch.setOnCheckedChangeListener { _, isChecked ->
             ThemePrefs.setDark(context, !isChecked)
@@ -69,6 +75,7 @@ class SettingsFragment : Fragment() {
         }
 
         // ------------------ STYLING ------------------
+
         styleSwitch(themeSwitch, dark)
         styleSwitch(motogpSwitch, dark)
         styleSwitch(sbkSwitch, dark)
@@ -79,11 +86,15 @@ class SettingsFragment : Fragment() {
 
         updateButton.setBackgroundResource(bgRes)
         themeContainer.setBackgroundResource(bgRes)
+        motogpContainer.setBackgroundResource(bgRes)
+        sbkContainer.setBackgroundResource(bgRes)
 
         val textColor = if (dark) Color.WHITE else Color.BLACK
 
         versionText.apply {
-            text = "APP VERSION  ${context.packageManager.getPackageInfo(context.packageName, 0).versionName}"
+            text = "APP VERSION  ${
+                context.packageManager.getPackageInfo(context.packageName, 0).versionName
+            }"
             setTextColor(textColor)
             typeface = racingRegular
             letterSpacing = 0.08f
@@ -97,37 +108,40 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        lightModeLabel.setTextColor(textColor)
-        lightModeLabel.typeface = racingBold
-        motogpLabel.setTextColor(textColor)
-        motogpLabel.typeface = racingBold
-        sbkLabel.setTextColor(textColor)
-        sbkLabel.typeface = racingBold
+        lightModeLabel.apply {
+            setTextColor(textColor)
+            typeface = racingBold
+        }
 
-        // ------------------ TOGGLE STATE ------------------
+        motogpLabel.apply {
+            setTextColor(textColor)
+            typeface = racingBold
+        }
+
+        sbkLabel.apply {
+            setTextColor(textColor)
+            typeface = racingBold
+        }
+
+        // ------------------ STATE INIT ------------------
+
         refreshNotificationToggles()
 
-        // ------------------ TOGGLE CLICK (BLOCKED ONLY) ------------------
+        // ------------------ CONTAINER CLICK HANDLING ------------------
 
-        motogpSwitch.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP &&
-                NotificationPermissionHelper.notificationsDisabled(requireContext())
-            ) {
+        motogpContainer.setOnClickListener {
+            if (NotificationPermissionHelper.notificationsDisabled(context)) {
                 showNotificationPermissionDialog()
-                true   // 🚫 consume → no toggle
             } else {
-                false  // allow normal toggle
+                motogpSwitch.toggle()
             }
         }
 
-        sbkSwitch.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP &&
-                NotificationPermissionHelper.notificationsDisabled(requireContext())
-            ) {
+        sbkContainer.setOnClickListener {
+            if (NotificationPermissionHelper.notificationsDisabled(context)) {
                 showNotificationPermissionDialog()
-                true
             } else {
-                false
+                sbkSwitch.toggle()
             }
         }
 
@@ -158,29 +172,37 @@ class SettingsFragment : Fragment() {
         val hasPermission =
             !NotificationPermissionHelper.notificationsDisabled(context)
 
+        motogpSwitch.isEnabled = hasPermission
+        sbkSwitch.isEnabled = hasPermission
+
         motogpSwitch.isChecked =
             hasPermission && NotificationPrefs.isMotoGPEnabled(context)
 
         sbkSwitch.isChecked =
             hasPermission && NotificationPrefs.isSBKEnabled(context)
-
-        val alpha = if (hasPermission) 1f else 0.6f
-        motogpSwitch.alpha = alpha
-        sbkSwitch.alpha = alpha
     }
-
 
     private fun styleSwitch(
         switch: SwitchMaterial,
         dark: Boolean
     ) {
-        switch.thumbTintList =
-            android.content.res.ColorStateList.valueOf(
-                if (dark) Color.WHITE else Color.BLACK
-            )
+        val states = arrayOf(
+            intArrayOf(android.R.attr.state_checked),
+            intArrayOf(-android.R.attr.state_checked)
+        )
 
-        switch.trackTintList =
-            android.content.res.ColorStateList.valueOf("#ec1010".toColorInt())
+        val thumbColors = intArrayOf(
+            "#ec1010".toColorInt(), // checked
+            if (dark) Color.WHITE else Color.BLACK // unchecked
+        )
+
+        val trackColors = intArrayOf(
+            "#ec1010".toColorInt(), // checked
+            "#808080".toColorInt()  // unchecked
+        )
+
+        switch.thumbTintList = ColorStateList(states, thumbColors)
+        switch.trackTintList = ColorStateList(states, trackColors)
     }
 
     private fun showNotificationPermissionDialog() {
