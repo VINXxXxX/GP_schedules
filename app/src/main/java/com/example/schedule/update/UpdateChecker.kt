@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.gson.Gson
@@ -36,25 +35,17 @@ object UpdateChecker {
                 val release =
                     Gson().fromJson(response, GitHubRelease::class.java)
 
-                val latestVersionCode =
-                    release.tag_name.filter { it.isDigit() }.toIntOrNull()
-                        ?: throw IllegalStateException("Invalid tag")
+                val latestVersionName =
+                    release.tag_name.removePrefix("v").trim()
 
-                val currentVersionCode =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        activity.packageManager
-                            .getPackageInfo(activity.packageName, 0)
-                            .longVersionCode
-                            .toInt()
-                    } else {
-                        @Suppress("DEPRECATION")
-                        activity.packageManager
-                            .getPackageInfo(activity.packageName, 0)
-                            .versionCode
-                    }
+                val currentVersionName =
+                    activity.packageManager
+                        .getPackageInfo(activity.packageName, 0)
+                        .versionName
+                        ?.trim() ?: "0.0.0"
 
                 activity.runOnUiThread {
-                    if (latestVersionCode > currentVersionCode) {
+                    if (isNewerVersion(latestVersionName, currentVersionName)) {
                         showUpdateDialog(activity, release)
                     } else if (manual) {
                         Toast.makeText(
@@ -79,6 +70,27 @@ object UpdateChecker {
         }.start()
     }
 
+    /**
+     * Proper semantic version comparison.
+     * Supports: 1.0.0, 1.10.2, 2.0, etc.
+     */
+    private fun isNewerVersion(remote: String, current: String): Boolean {
+
+        val remoteParts = remote.split(".").mapNotNull { it.toIntOrNull() }
+        val currentParts = current.split(".").mapNotNull { it.toIntOrNull() }
+
+        val maxLength = maxOf(remoteParts.size, currentParts.size)
+
+        for (i in 0 until maxLength) {
+            val r = remoteParts.getOrElse(i) { 0 }
+            val c = currentParts.getOrElse(i) { 0 }
+
+            if (r > c) return true
+            if (r < c) return false
+        }
+
+        return false
+    }
 
     @SuppressLint("UseKtx")
     private fun showUpdateDialog(
