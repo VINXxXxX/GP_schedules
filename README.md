@@ -134,8 +134,10 @@ Core functionality does not require internet access.
 ## 📷 Screenshots
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/7becd2d3-5559-4c82-bbf3-5e4a6bf82589" width="280" />
-  <img src="https://github.com/user-attachments/assets/6beef6ee-2e79-4011-877d-7a71b87811f3" width="280" />
-  <img src="https://github.com/user-attachments/assets/fbc412b6-75b3-42eb-a418-6ea00158c859" width="280" />
-  <img src="https://github.com/user-attachments/assets/0d62c665-baa8-4981-b382-62096b38f06a" width="280" />
+  <img src="https://github.com/user-attachments/assets/933d2a7c-df3a-4fe6-b3f0-c7f107144f68" width="280" />
+  <img src="https://github.com/user-attachments/assets/69d72523-4a50-4d9c-948b-c9062fe82c7c" width="280" />
+  <img src="https://github.com/user-attachments/assets/9671c391-129e-4e57-b589-cbcefcef5c4a" width="280" />
+  <img src="https://github.com/user-attachments/assets/641e61a2-14ff-4b23-998e-608480c976ef" width="280" />
+  <img src="https://github.com/user-attachments/assets/70572747-e789-451f-8a33-fe6701d858f6" width="280" />
+  <img src="https://github.com/user-attachments/assets/f5efd31f-1a5f-46fe-ad13-4d092caffdcb" width="280" />
 </p>
