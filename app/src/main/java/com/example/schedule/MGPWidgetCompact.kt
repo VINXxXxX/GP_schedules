@@ -11,10 +11,7 @@ import com.example.schedule.model.Race
 import com.example.schedule.utils.RaceDateFormatter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
-import java.util.TimeZone
 
 class MGPWidgetCompact : AppWidgetProvider() {
 
@@ -214,17 +211,9 @@ class MGPWidgetCompact : AppWidgetProvider() {
                 val sat = StringBuilder()
                 val sun = StringBuilder()
 
-                val input = SimpleDateFormat("hh:mm a", Locale.ENGLISH).apply {
-                    timeZone = TimeZone.getTimeZone("Asia/Kolkata")
-                }
-                val output = SimpleDateFormat("hh:mm a", Locale.getDefault())
-
+                // NEW — DST-correct, anchored to the actual race date
                 selectedRace.sessions.forEach { s ->
-                    val time = try {
-                        output.format(input.parse(s.sessionTime.trim())!!)
-                    } catch (_: Exception) {
-                        s.sessionTime
-                    }
+                    val time = convertIstToLocal(s.sessionTime, selectedFriday)
 
                     val raw = s.sessionName.lowercase()
                     val display = when {

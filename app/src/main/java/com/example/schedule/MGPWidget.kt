@@ -242,11 +242,7 @@ class MGPWidget : AppWidgetProvider() {
                 val output = SimpleDateFormat("hh:mm a", Locale.getDefault())
 
                 selectedRace.sessions.forEach { s ->
-                    val time = try {
-                        output.format(input.parse(s.sessionTime.trim())!!)
-                    } catch (_: Exception) {
-                        s.sessionTime
-                    }
+                    val time = convertIstToLocal(s.sessionTime, selectedFriday)
 
                     val raw = s.sessionName.lowercase()
                     val display = when {

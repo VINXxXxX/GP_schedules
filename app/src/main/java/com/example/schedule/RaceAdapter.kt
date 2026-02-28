@@ -204,15 +204,7 @@ class RaceAdapter(private val races: List<Race>) : RecyclerView.Adapter<RaceAdap
                         else -> s.sessionName.uppercase()
                     }
 
-                    val convertedTime = try {
-                        val input = SimpleDateFormat("hh:mm a", Locale.ENGLISH).apply {
-                            timeZone = TimeZone.getTimeZone("Asia/Kolkata")
-                        }
-                        val output = SimpleDateFormat("hh:mm a", Locale.getDefault())
-                        output.format(input.parse(s.sessionTime.trim())!!)
-                    } catch (_: Exception) {
-                        s.sessionTime
-                    }
+                    val convertedTime = convertIstToLocal(s.sessionTime, friday)
 
                     val tv = TextView(holder.itemView.context).apply {
                         text = "$displayName\n$convertedTime"
