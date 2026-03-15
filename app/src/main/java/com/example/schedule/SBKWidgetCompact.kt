@@ -204,13 +204,18 @@ class SBKWidgetCompact : AppWidgetProvider() {
                 val sat = StringBuilder()
                 val sun = StringBuilder()
 
-                val input = SimpleDateFormat("hh:mm a", Locale.ENGLISH).apply {
+                val input = SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.ENGLISH).apply {
                     timeZone = TimeZone.getTimeZone("Asia/Kolkata")
                 }
                 val output = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                val raceDate = selectedRace.race
 
                 selectedRace.sessions.forEach { s ->
-                    val time = convertIstToLocal(s.sessionTime, selectedFriday)
+                    val time = try {
+                        output.format(input.parse("$raceDate ${s.sessionTime.trim()}")!!)
+                    } catch (_: Exception) {
+                        s.sessionTime
+                    }
 
                     val raw = s.sessionName.lowercase()
                     val display = when {

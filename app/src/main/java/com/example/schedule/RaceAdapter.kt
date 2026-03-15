@@ -182,7 +182,7 @@ class RaceAdapter(private val races: List<Race>) : RecyclerView.Adapter<RaceAdap
 
 
 
-        // Build sessions ONLY once
+            // Build sessions ONLY once
             if (holder.isBackShown && holder.fridayColumn.childCount == 0) {
                 race.sessions.forEach { s ->
 
@@ -204,7 +204,24 @@ class RaceAdapter(private val races: List<Race>) : RecyclerView.Adapter<RaceAdap
                         else -> s.sessionName.uppercase()
                     }
 
-                    val convertedTime = convertIstToLocal(s.sessionTime, friday)
+                    val convertedTime = try {
+                        val baseCal = Calendar.getInstance().apply {
+                            val p = race.race.split("-")
+                            set(p[0].toInt(), p[1].toInt() - 1, p[2].toInt(), 0, 0, 0)
+                            add(Calendar.DAY_OF_MONTH, s.dayOffset)
+                        }
+                        val y = baseCal.get(Calendar.YEAR)
+                        val m = baseCal.get(Calendar.MONTH) + 1
+                        val d = baseCal.get(Calendar.DAY_OF_MONTH)
+                        val dateStr = "%04d-%02d-%02d".format(y, m, d)
+                        val input = SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.ENGLISH).apply {
+                            timeZone = TimeZone.getTimeZone("Asia/Kolkata")
+                        }
+                        val output = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                        output.format(input.parse("$dateStr ${s.sessionTime.trim()}")!!)
+                    } catch (_: Exception) {
+                        s.sessionTime
+                    }
 
                     val tv = TextView(holder.itemView.context).apply {
                         text = "$displayName\n$convertedTime"

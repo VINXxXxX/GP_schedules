@@ -1,6 +1,9 @@
 package com.example.schedule.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Session(
-    val sessionName: String,
-    val sessionTime: String
+    @SerializedName("sessionName") val sessionName: String,
+    @SerializedName("sessionTime") val sessionTime: String,
+    @SerializedName("dayOffset")   val dayOffset: Int = 0
 )
