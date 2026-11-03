@@ -11,10 +11,24 @@ android {
         applicationId = "com.example.schedule"
         minSdk = 24
         targetSdk = 36
-        versionCode = 2
-        versionName = "1.0.2"
+        versionCode = 9
+        versionName = "2.6.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    // Two apps from one codebase (Build Variants panel: phoneDebug / tvDebug):
+    //   phone → com.example.schedule     launcher icon, 4×2 widget, notifications
+    //   tv    → com.example.schedule.tv  TV app list, TV widget, home-screen channel row
+    flavorDimensions += "device"
+    productFlavors {
+        create("phone") {
+            dimension = "device"
+        }
+        create("tv") {
+            dimension = "device"
+            applicationIdSuffix = ".tv"
+        }
     }
 
     buildTypes {
@@ -52,6 +66,8 @@ dependencies {
     implementation("com.jakewharton.threetenabp:threetenabp:1.4.6")
     implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("androidx.work:work-runtime-ktx:2.9.1")
+    // Android TV home-screen channel row (TV only; unused on phones)
+    implementation("androidx.tvprovider:tvprovider:1.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

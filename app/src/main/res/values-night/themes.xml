@@ -1,7 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Schedule" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <!-- Same as day: the app picks dark / light itself (Settings → Theme) -->
+    <style name="Base.Theme.Schedule"
+        parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/pit_accent</item>
+        <item name="colorSecondary">@color/pit_accent</item>
+        <item name="colorAccent">@color/pit_accent</item>
+        <item name="android:windowBackground">@color/pit_bg</item>
+        <item name="android:statusBarColor">@color/pit_bg</item>
+        <item name="android:navigationBarColor">@color/pit_bg</item>
     </style>
 </resources>

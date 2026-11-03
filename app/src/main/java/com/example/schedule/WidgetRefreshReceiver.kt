@@ -31,5 +31,7 @@ class WidgetRefreshReceiver : BroadcastReceiver() {
         }
 
         WidgetUpdater.updateAll(context)
+        // Tap also pulls today's track weather in race week (if not fetched yet today)
+        com.example.schedule.weather.WeatherWorker.enqueue(context)
     }
 }

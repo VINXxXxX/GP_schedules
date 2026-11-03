@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- DARK (default values) -->
-    <color name="text_primary">#FFFFFF</color>
-    <color name="text_secondary">#CCCCCC</color>
-    <color name="text_muted">#888888</color>
-    <color name="card_bg">#1E1E1E</color>
-    <!-- Racing button colors (DARK defaults) -->
-    <color name="racing_btn_bg_dark">#1C1C1C</color>
-    <color name="racing_btn_stroke_dark">#FF3B3B</color>
-    <color name="racing_btn_ripple_dark">#40FF3B3B</color>
-    <!-- Light overrides will be applied in code -->
-    <color name="racing_btn_bg_light">#FFFFFF</color>
-    <color name="racing_btn_stroke_light">#000000</color>
-    <color name="racing_btn_ripple_light">#33000000</color>
-
+    <!-- Pit Wall tokens (code reads ui/Pit.kt; these are for XML / theme use) -->
+    <color name="pit_bg">#0B0B0D</color>
+    <color name="pit_surface">#141417</color>
+    <color name="pit_text">#FFFFFF</color>
+    <color name="pit_muted">#A1A1AA</color>
+    <color name="pit_accent">#E5261B</color>
 </resources>

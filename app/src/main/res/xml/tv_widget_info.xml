@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TV widget: wide card for TV launchers that host Android widgets (e.g. ATV Launcher) -->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minWidth="420dp"
+    android:minHeight="150dp"
+    android:minResizeWidth="320dp"
+    android:minResizeHeight="130dp"
+    android:targetCellWidth="5"
+    android:targetCellHeight="2"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/widget_tv"
+    android:previewLayout="@layout/widget_tv"
+    android:description="@string/widget_tv_description"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    tools:ignore="UnusedAttribute" />

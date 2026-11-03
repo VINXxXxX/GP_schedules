@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    TV widget (Pit Wall), for TV launchers that host Android widgets.
+    RemoteViews-safe views only (LinearLayout / TextView / ImageView / Chronometer).
+
+    [R19] SEPANG   MALAYSIA · 30 OCT – 1 NOV                     ☁ 31°
+    ● FP1 LIVE · ENDS IN                                     00:25:12
+    ┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐┌────┐
+    │FP1 ││PR  ││FP2 ││Q1  ││Q2  ││SPR ││GP  │   one tile per session:
+    │FRI ││FRI ││SAT ││SAT ││SAT ││SAT ││SUN │   done = faded, live = red,
+    │8:15││12:30│7:40 ││8:20││8:45││12:30│12:30│   next = red outline
+    └────┘└────┘└────┘└────┘└────┘└────┘└────┘
+    NEXT RND · LUSAIL · 6 NOV                                19 / 22
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tv_widget_bg"
+    android:orientation="vertical"
+    android:paddingStart="16dp"
+    android:paddingTop="12dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="10dp">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_round"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/widget_chip_round"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:paddingStart="7dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="7dp"
+            android:paddingBottom="3dp"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_meta"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="#C6C6CE"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/tv_weather_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:importantForAccessibility="no"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_weather_text"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:textColor="#E8E8EC"
+            android:textSize="15sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- STATUS + TIMER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="#FF6B60"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Chronometer
+            android:id="@+id/tv_timer"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_timer_text"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- SESSION TILES (up to 10; unused ones are hidden) -->
+    <LinearLayout
+        android:id="@+id/tv_cells"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="9dp"
+        android:layout_weight="1"
+        android:minHeight="64dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/tv_cell_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/tv_cell_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="9dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="7dp">
+
+            <TextView
+                android:id="@+id/tv_cell_1_label"
+                style="@style/TvCellLabel" />
+
+            <TextView
+                android:id="@+id/tv_cell_1_day"
+                style="@style/TvCellDay" />
+
+            <TextView
+                android:id="@+id/tv_cell_1_time"
+                style="@style/TvCellTime" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_cell_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/tv_cell_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="9dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="7dp">
+
+            <TextView
+                android:id="@+id/tv_cell_2_label"
+                style="@style/TvCellLabel" />
+
+            <TextView
+                android:id="@+id/tv_cell_2_day"
+                style="@style/TvCellDay" />
+
+            <TextView
+                android:id="@+id/tv_cell_2_time"
+                style="@style/TvCellTime" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_cell_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/tv_cell_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="9dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="7dp">
+
+            <TextView
+                android:id="@+id/tv_cell_3_label"
+                style="@style/TvCellLabel" />
+
+            <TextView
+                android:id="@+id/tv_cell_3_day"
+                style="@style/TvCellDay" />
+
+            <TextView
+                android:id="@+id/tv_cell_3_time"
+                style="@style/TvCellTime" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_cell_4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/tv_cell_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="9dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="7dp">
+
+            <TextView
+                android:id="@+id/tv_cell_4_label"
+                style="@style/TvCellLabel" />
+
+            <TextView
+                android:id="@+id/tv_cell_4_day"
+                style="@style/TvCellDay" />
+
+            <TextView
+                android:id="@+id/tv_cell_4_time"
+                style="@style/TvCellTime" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_cell_5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/tv_cell_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="9dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="7dp">
+
+            <TextView
+                android:id="@+id/tv_cell_5_label"
+                style="@style/TvCellLabel" />
+
+            <TextView
+                android:id="@+id/tv_cell_5_day"
+                style="@style/TvCellDay" />
+
+            <TextView
+                android:id="@+id/tv_cell_5_time"
+                style="@style/TvCellTime" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_cell_6"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/tv_cell_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="9dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="7dp">
+
+            <TextView
+                android:id="@+id/tv_cell_6_label"
+                style="@style/TvCellLabel" />
+
+            <TextView
+                android:id="@+id/tv_cell_6_day"
+                style="@style/TvCellDay" />
+
+            <TextView
+                android:id="@+id/tv_cell_6_time"
+                style="@style/TvCellTime" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_cell_7"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/tv_cell_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="9dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="7dp">
+
+            <TextView
+                android:id="@+id/tv_cell_7_label"
+                style="@style/TvCellLabel" />
+
+            <TextView
+                android:id="@+id/tv_cell_7_day"
+                style="@style/TvCellDay" />
+
+            <TextView
+                android:id="@+id/tv_cell_7_time"
+                style="@style/TvCellTime" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_cell_8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/tv_cell_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="9dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="7dp">
+
+            <TextView
+                android:id="@+id/tv_cell_8_label"
+                style="@style/TvCellLabel" />
+
+            <TextView
+                android:id="@+id/tv_cell_8_day"
+                style="@style/TvCellDay" />
+
+            <TextView
+                android:id="@+id/tv_cell_8_time"
+                style="@style/TvCellTime" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_cell_9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/tv_cell_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="9dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="7dp">
+
+            <TextView
+                android:id="@+id/tv_cell_9_label"
+                style="@style/TvCellLabel" />
+
+            <TextView
+                android:id="@+id/tv_cell_9_day"
+                style="@style/TvCellDay" />
+
+            <TextView
+                android:id="@+id/tv_cell_9_time"
+                style="@style/TvCellTime" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/tv_cell_10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/tv_cell_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingStart="9dp"
+            android:paddingTop="7dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="7dp">
+
+            <TextView
+                android:id="@+id/tv_cell_10_label"
+                style="@style/TvCellLabel" />
+
+            <TextView
+                android:id="@+id/tv_cell_10_day"
+                style="@style/TvCellDay" />
+
+            <TextView
+                android:id="@+id/tv_cell_10_time"
+                style="@style/TvCellTime" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- AGENDA (narrow widget): one line per day, used when the tiles wouldn't fit -->
+    <TextView
+        android:id="@+id/tv_agenda"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="6dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="top|start"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="3dp"
+        android:maxLines="4"
+        android:textColor="#E8E8EC"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <!-- FOOTER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="6dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_footer_left"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:textColor="#A4A4AD"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_footer_right"
+            android:shadowColor="#99000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:textColor="#A4A4AD"
+            android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -44,7 +44,7 @@ object NotificationPermissionHelper {
         AlertDialog.Builder(activity)
             .setTitle("Enable notifications")
             .setMessage(
-                "Allow notifications to receive MotoGP and SBK race alerts."
+                "Allow notifications to receive MotoGP race alerts."
             )
             .setPositiveButton("Allow") { _, _ ->
                 prefs.edit().putBoolean(KEY_ASKED, true).apply()
@@ -81,6 +81,7 @@ object NotificationPermissionHelper {
         )
         activity.startActivity(intent)
     }
+
     fun notificationsDisabled(context: Context): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return false
 

@@ -12,11 +12,8 @@ class WidgetRefreshWorker(
     override fun doWork(): Result {
 
         WidgetUpdater.updateAll(applicationContext)
+        // Also rebuilds notification alarms, so the next round gets its alerts
         SchedulerCoordinator.init(applicationContext)
-
-        // 🔔 Re-schedule notifications
-        NotificationScheduler.scheduleForNextRace(applicationContext)
-
 
         return Result.success()
     }

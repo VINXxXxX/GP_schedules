@@ -1,132 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<!-- Rows are built in SettingsFragment so they share the Pit Wall styling -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/settingsScroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp">
+    android:fillViewport="true">
 
-    <!-- APP VERSION -->
-    <TextView
-        android:id="@+id/versionText"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/settingsList"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        tools:text="APP VERSION 1.0"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- CHECK FOR UPDATES -->
-    <TextView
-        android:id="@+id/checkUpdateButton"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:paddingHorizontal="16dp"
-        android:text="CHECK FOR UPDATES"
-        android:textSize="14sp"
-        android:letterSpacing="0.12"
-        android:background="@drawable/bg_racing_button_dark"
-        android:clickable="true"
-        android:focusable="true"
-        tools:ignore="HardcodedText"
-        app:layout_constraintTop_toBottomOf="@id/versionText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- LIGHT MODE -->
-    <LinearLayout
-        android:id="@+id/themeToggleContainer"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
-        android:background="@drawable/bg_racing_button_dark"
-        app:layout_constraintTop_toBottomOf="@id/checkUpdateButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/lightModeLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="THEME"
-            android:textSize="14sp"
-            android:letterSpacing="0.12"
-            tools:ignore="HardcodedText" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/themeSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <!-- MOTOGP NOTIFICATIONS -->
-    <LinearLayout
-        android:id="@+id/motogpNotifyContainer"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:background="@drawable/bg_racing_button_dark"
-        app:layout_constraintTop_toBottomOf="@id/themeToggleContainer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/motogpNotifyLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="MOTOGP NOTIFICATIONS"
-            android:textSize="14sp"
-            android:letterSpacing="0.12"
-            tools:ignore="HardcodedText" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/motogpNotifySwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <!-- SBK NOTIFICATIONS -->
-    <LinearLayout
-        android:id="@+id/sbkNotifyContainer"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:background="@drawable/bg_racing_button_dark"
-        app:layout_constraintTop_toBottomOf="@id/motogpNotifyContainer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/sbkNotifyLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="SBK NOTIFICATIONS"
-            android:textSize="14sp"
-            android:letterSpacing="0.12"
-            tools:ignore="HardcodedText" />
-
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/sbkNotifySwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="24dp" />
+</ScrollView>

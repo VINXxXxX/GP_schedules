@@ -2,5 +2,10 @@
     <string name="app_name">GP Schedule</string>
 
     <string name="nav_motogp">MGP</string>
-    <string name="nav_sbk">SBK</string>
+
+    <string name="widget_large_description">Next MotoGP round: live / next session countdown, the whole weekend by day, alert setting and season progress</string>
+
+    <string name="widget_tv_description">MotoGP weekend for your TV: live / next session countdown and every session as a tile</string>
+    <string name="tv_channel_name">MotoGP Weekend</string>
+    <string name="tv_channel_description">Every session of the current MotoGP round, in your local time</string>
 </resources>

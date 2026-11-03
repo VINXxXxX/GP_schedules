@@ -3,20 +3,36 @@ package com.example.schedule
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
+import com.example.schedule.tv.TvChannel
+import com.example.schedule.tv.TvWidget
 
 object WidgetUpdater {
 
-fun updateAll(context: Context) {
-    val manager = AppWidgetManager.getInstance(context)
+    fun updateAll(context: Context) {
+        // Null on TVs whose firmware has no widget support
+        val manager: AppWidgetManager? = try {
+            AppWidgetManager.getInstance(context)
+        } catch (_: Exception) {
+            null
+        }
 
-    manager.getAppWidgetIds(ComponentName(context, MGPWidget::class.java))
-            .forEach { MGPWidget.updateAppWidget(context, manager, it) }
+        val ids = try {
+            manager?.getAppWidgetIds(ComponentName(context, MGPWidget::class.java))
+        } catch (_: Exception) {
+            null
+        } ?: IntArray(0)
 
-    manager.getAppWidgetIds(ComponentName(context, SBKWidget::class.java))
-            .forEach { SBKWidget.updateAppWidget(context, manager, it) }
-    manager.getAppWidgetIds(ComponentName(context, MGPWidgetCompact::class.java))
-            .forEach { MGPWidgetCompact.updateAppWidget(context,manager,it) }
-    manager.getAppWidgetIds(ComponentName(context, SBKWidgetCompact::class.java))
-            .forEach { SBKWidgetCompact.updateAppWidget(context,manager,it) }
-}
+        if (manager != null) ids.forEach { MGPWidget.updateAppWidget(context, manager, it) }
+
+        // TV: wide widget (launchers that host widgets) + the channel row on the home screen
+        val tvWidgets = TvWidget.updateAll(context, manager)
+        val tvChannel = TvChannel.refreshAsync(context)
+
+        // Chain the next exact refresh (session start/end, midnight) — only while something shows it
+        if (ids.isNotEmpty() || tvWidgets > 0 || tvChannel) {
+            SessionScheduler.scheduleNextWakeUp(context)
+        } else {
+            SessionScheduler.cancel(context)
+        }
+    }
 }

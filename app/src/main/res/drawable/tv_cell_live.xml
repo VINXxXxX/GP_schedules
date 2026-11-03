@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TV widget tile: the session running now (solid red so it stands out on the glass) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="#F2E5261B" />
+    <corners android:radius="10dp" />
+</shape>

@@ -12,10 +12,8 @@ class TimeChangeReceiver : BroadcastReceiver() {
         Log.d("TimeChange", "Time change detected: ${intent.action}")
 
         // Refresh widgets + alarms
+        // Refresh widgets + alarms (notifications included)
         SchedulerCoordinator.forceRefresh(context)
-
-        // 🔔 Re-schedule notifications
-        NotificationScheduler.scheduleForNextRace(context)
 
     }
 }

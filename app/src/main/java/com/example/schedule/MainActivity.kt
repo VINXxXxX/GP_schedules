@@ -10,10 +10,14 @@ import android.provider.Settings
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.widget.TextView
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.viewpager2.widget.ViewPager2
-import com.example.schedule.ui.ThemePrefs
+import com.example.schedule.ui.Pit
+import com.example.schedule.ui.Pit.styled
+import com.example.schedule.ui.PitPalette
 import com.example.schedule.update.UpdateChecker
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +34,34 @@ class MainActivity : AppCompatActivity() {
         requestNotificationPermissionIfNeeded()
         setupUI()
         maybePromptBatteryOptimization()
+
+        // Opened via "Open with GP Schedule" on a .json file
+        if (savedInstanceState == null) handleScheduleFileIntent(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Race week only, at most once a day
+        com.example.schedule.weather.WeatherWorker.enqueue(this)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleScheduleFileIntent(intent)
+    }
+
+    /* ---------------------------------------------------------- */
+    /* SCHEDULE FILE (open-with from a file manager)              */
+    /* ---------------------------------------------------------- */
+
+    private fun handleScheduleFileIntent(intent: Intent?) {
+        if (intent?.action != Intent.ACTION_VIEW) return
+        val uri = intent.data ?: return
+
+        // Don't re-import if the activity is recreated with the same intent
+        setIntent(Intent(this, MainActivity::class.java))
+
+        ScheduleImporter.importFromUri(this, uri)
     }
 
     /* ---------------------------------------------------------- */
@@ -64,7 +96,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun scheduleNotifications() {
-        NotificationScheduler.scheduleForNextRace(this)
         SchedulerCoordinator.init(this)
     }
 
@@ -73,13 +104,11 @@ class MainActivity : AppCompatActivity() {
     /* ---------------------------------------------------------- */
 
     private fun setupTheme() {
-        val gradient = findViewById<View>(R.id.gradientBackground)
-        val isDark = ThemePrefs.isDark(this)
-
-        gradient.setBackgroundResource(
-            if (isDark) R.drawable.widget_gradient_dark
-            else R.drawable.widget_gradient_light
-        )
+        val p = Pit.palette(this)
+        applyWindowColors(this, p)
+        findViewById<View>(R.id.mainRoot).setBackgroundColor(p.bg)
+        findViewById<View>(R.id.bottomNav).setBackgroundColor(p.bg)
+        findViewById<View>(R.id.navDivider).setBackgroundColor(p.line)
     }
 
     /* ---------------------------------------------------------- */
@@ -119,30 +148,51 @@ class MainActivity : AppCompatActivity() {
     /* ---------------------------------------------------------- */
 
     private fun setupUI() {
+        val p = Pit.palette(this)
         val viewPager = findViewById<ViewPager2>(R.id.viewPager)
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
-
         viewPager.adapter = RacePagerAdapter(this)
 
-        bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_motogp -> viewPager.currentItem = 0
-                R.id.nav_sbk -> viewPager.currentItem = 1
-                R.id.nav_settings -> viewPager.currentItem = 2
+        val tabs = listOf(
+            Triple(findViewById<View>(R.id.navSchedule), findViewById<TextView>(R.id.navScheduleText), findViewById<View>(R.id.navScheduleBar)),
+            Triple(findViewById<View>(R.id.navSettings), findViewById<TextView>(R.id.navSettingsText), findViewById<View>(R.id.navSettingsBar))
+        )
+
+        fun select(position: Int) {
+            tabs.forEachIndexed { i, (root, text, bar) ->
+                val on = i == position
+                text.styled(Pit.display(this), 14f, if (on) p.text else p.faint, 0.1f)
+                bar.background = if (on) Pit.rounded(this, p.accent, 2f) else null
+                root.isSelected = on
+                root.contentDescription = text.text.toString() + if (on) ", selected" else ""
             }
-            true
+        }
+
+        tabs.forEachIndexed { i, (root, _, _) ->
+            root.setOnClickListener { viewPager.currentItem = i }
         }
 
         viewPager.registerOnPageChangeCallback(
             object : ViewPager2.OnPageChangeCallback() {
-                override fun onPageSelected(position: Int) {
-                    bottomNav.selectedItemId = when (position) {
-                        0 -> R.id.nav_motogp
-                        1 -> R.id.nav_sbk
-                        else -> R.id.nav_settings
-                    }
-                }
+                override fun onPageSelected(position: Int) = select(position)
             }
         )
+        select(0)
+    }
+
+    companion object {
+        /** Status / nav bar colors to match the screen */
+        fun applyWindowColors(activity: Activity, p: PitPalette) {
+            val w = activity.window
+            @Suppress("DEPRECATION")
+            w.statusBarColor = p.bg
+            @Suppress("DEPRECATION")
+            w.navigationBarColor = p.bg
+            w.decorView.setBackgroundColor(p.bg)
+            val light = p == Pit.LIGHT
+            WindowInsetsControllerCompat(w, w.decorView).apply {
+                isAppearanceLightStatusBars = light
+                isAppearanceLightNavigationBars = light
+            }
+        }
     }
 }

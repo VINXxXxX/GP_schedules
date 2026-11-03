@@ -1,13 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="BottomNavText">
-        <item name="android:textSize">13.5sp</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:letterSpacing">0.12</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
 
     <style name="WidgetTitleBold">
         <item name="android:textStyle">bold</item>
@@ -29,13 +22,73 @@
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
-    <style name="NoOverlayBottomNav" parent="Widget.Material3.BottomNavigationView">
+    <!-- One day column in the large widget: "FRI 05" + its sessions -->
+    <style name="WidgetDayColumn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineSpacingExtra">1dp</item>
+        <item name="android:textColor">#E8E8EC</item>
+        <item name="android:gravity">top|start</item>
+        <item name="android:maxLines">8</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
 
-        <!-- Remove selection background -->
-        <item name="itemBackground">@null</item>
-        <!-- Remove ripple -->
-        <item name="itemRippleColor">@null</item>
+    <!-- One day column in the weekend-preview notification -->
+    <style name="NotifDayColumn" parent="TextAppearance.Compat.Notification">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:paddingEnd">6dp</item>
+    </style>
 
+    <!-- TV widget session tile -->
+    <style name="TvCellLabel">
+        <item name="android:shadowColor">#99000000</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">3</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TvCellDay">
+        <item name="android:shadowColor">#99000000</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">3</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#C6C6CE</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TvCellTime">
+        <item name="android:shadowColor">#99000000</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">3</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#E8E8EC</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:includeFontPadding">false</item>
     </style>
 
 </resources>

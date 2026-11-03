@@ -28,7 +28,11 @@ fun Session.toLocalCalendar(race: Race): Calendar {
         timeZone = TimeZone.getTimeZone("Asia/Kolkata")
     }
 
-    val date = input.parse("$dateStr ${sessionTime.trim()}") ?: return Calendar.getInstance()
+    val date = try {
+        input.parse("$dateStr ${sessionTime.trim()}")
+    } catch (_: Exception) {
+        null
+    } ?: return Calendar.getInstance()
 
     val cal = Calendar.getInstance()
     cal.time = date

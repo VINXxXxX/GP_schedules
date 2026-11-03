@@ -1,7 +1,10 @@
-# MotoGP & SBK Schedule Widgets 🏁
+# MotoGP Schedule Widgets 🏁
 
-Android application providing **MotoGP** and **WorldSBK** race schedules
+Android application providing **MotoGP** race schedules
 through **home screen widgets** and an **in-app race calendar**.
+
+Ships with the **2027 MotoGP season**. New seasons can be loaded from a JSON
+file on the phone — no app update needed.
 
 Built with a focus on:
 
@@ -14,11 +17,12 @@ Built with a focus on:
 
 ## ✨ Features
 
-* 📅 Upcoming MotoGP & WorldSBK race schedules
+* 📅 Upcoming MotoGP race schedule (2027 built in)
+* 📂 **Import a new season from a JSON file** (Settings → Import schedule)
 * ⏱ Automatic local timezone conversion
 * 🕛 Exact midnight refresh (next race auto-switch)
 * 🔄 Auto re-sync after reboot & time/timezone changes
-* 🧩 Resizable home screen widgets
+* 🧩 Resizable home screen widgets (standard + compact)
 * 🎴 Interactive race cards with flip animation
 * 🌗 Manual Light / Dark theme toggle (Dark default)
 * 🔔 In-app Check for Updates (GitHub Releases)
@@ -27,55 +31,94 @@ Built with a focus on:
 
 ---
 
+## 📂 Loading a new season
+
+1. Put the schedule `.json` file on your phone (Downloads, Drive, anywhere).
+2. Open the app → **Settings** → **IMPORT SCHEDULE (JSON)** and pick the file.
+   You can also tap the file in a file manager and choose **Open with GP Schedule**.
+3. Check the summary (season, rounds, first and last race) and tap **Import**.
+
+The list, both widgets and notifications switch over immediately. If the file has
+a problem, the app says what's wrong and keeps the current schedule.
+**USE BUILT-IN SCHEDULE** removes the imported file and goes back to the bundled one.
+
+When every race in the loaded schedule is over, the widgets show **END** —
+that's the cue to import next season's file.
+
+### File format
+
+Same as `app/src/main/assets/motogp_races.json`:
+
+```json
+{
+  "races": [
+    {
+      "name": "Buriram Grand Prix",
+      "location": "Buriram, Thailand",
+      "track": "Chang International Circuit",
+      "round": 1,
+      "category": "MotoGP",
+      "race": "2027-03-05",
+      "sessions": [
+        { "sessionName": "fp1",    "sessionTime": "09:15 AM", "dayOffset": 0 },
+        { "sessionName": "fp2",    "sessionTime": "01:30 PM", "dayOffset": 0 },
+        { "sessionName": "fp3",    "sessionTime": "08:40 AM", "dayOffset": 1 },
+        { "sessionName": "q1",     "sessionTime": "09:20 AM", "dayOffset": 1 },
+        { "sessionName": "q2",     "sessionTime": "09:45 AM", "dayOffset": 1 },
+        { "sessionName": "sprint", "sessionTime": "01:30 PM", "dayOffset": 1 },
+        { "sessionName": "race",   "sessionTime": "01:30 PM", "dayOffset": 2 }
+      ]
+    }
+  ]
+}
+```
+
+| Field | Rule |
+|---|---|
+| `race` | Friday of the race weekend, `yyyy-MM-dd` |
+| `sessionTime` | **IST (Asia/Kolkata)**, `hh:mm AM/PM` — the app converts to the phone's timezone |
+| `dayOffset` | Days after `race` the session falls on, in IST (0 = Friday). Optional; guessed from the session name if missing |
+| `sessionName` | `fp1`, `fp2`, `sq` (Sprint Qualifying), `fp3`, `q1`, `q2`, `sprint`, `race`. Labels follow the season: before 2027 `fp2` shows as PR and `fp3` as FP2; from 2027 they show as FP2 and FP3. Unknown names still work and show as written |
+| `label` | Optional display name for a session (max 8 chars), overrides the built-in one |
+| `duration` | Optional length in minutes; used to know when a session is over (defaults: FP1 45, FP2 30, SQ 15, FP3 20, Q 15, Sprint 30, GP 50) |
+| `category` | Optional, defaults to `MotoGP`. Anything else is ignored |
+| `track`, `slug`, `localeKey` | Optional |
+
+---
+
 ## 🔔 Smart Notification System
 
-* Session-based race alerts
+* Race-week (Monday) and daily session alerts
 * Exact alarm scheduling (AlarmManager)
 * Android 13+ notification permission handling
 * Boot-safe rescheduling
 * Time & timezone change recovery
 * Duplicate notification prevention
+* Old alarms cleared automatically when a new schedule is imported
 * Battery optimization guidance prompt
-
-Notifications are designed to be reliable even under aggressive background restrictions.
 
 ---
 
 ## 🧩 Widgets
 
-### MotoGP Widget
+### MotoGP Widget (4×2, resizable)
 
-Displays:
+* Round, dates, country, circuit
+* **Hero timer**: within 24 h of the next session a live ticking countdown
+  (e.g. `NEXT · SPRINT QUALI 2:14:05`); during a session `● LIVE` and time since it started;
+  further out, whole days (`3 DAYS`, `TOMORROW`)
+* Weekend split into your local days (up to 4 columns) — finished sessions fade,
+  the live one is red, the next one is bold, today's header is red
+* Season progress bar
+* Three layouts by height (short / medium / tall), picked by the launcher on Android 12+
 
-* Upcoming MotoGP race
-* All weekend sessions
-* Auto-switches after race weekend ends
+### MotoGP Compact Widget (2×2, resizable)
 
-### SBK Widget
+* Round, city, dates, hero timer, the active day's sessions, season progress
 
-Displays:
-
-* Upcoming WorldSBK race
-* Weekend sessions
-* Automatic race progression
-
-Widgets intelligently refresh:
-
-* At midnight
-* After reboot
-* After time/timezone change
-* Via manual refresh
-
----
-
-## 🎨 UI & Theming
-
-* Theme-aware gradient backgrounds
-* Racing-style buttons with ripple effects
-* Adaptive outlines and toggle styling
-* Improved light mode readability
-* Consistent racing fonts across the app
-* Instant theme switch without color glitches
+Widgets redraw on their own at the exact moments they change (24 h before a session,
+session start, session end, midnight) using one self-rescheduling exact alarm,
+plus after reboot, time/timezone change, schedule import, and on tap.
 
 ---
 
@@ -84,28 +127,11 @@ Widgets intelligently refresh:
 * **Language:** Kotlin
 * **UI:** XML + Material Components
 * **Architecture:**
-
+  * `RaceRepository` — single data source (imported file → bundled asset)
   * AppWidgetProvider
   * AlarmManager (exact scheduling)
   * WorkManager (fallback reliability layer)
-* **Data Source:** Local JSON assets
-* **Receivers:**
-
-  * Boot completed
-  * Time change
-  * Timezone change
-
-Designed for maximum scheduling resilience across Android versions.
-
----
-
-## 🔄 Update Logic
-
-* Exact midnight alarm (Android 12+ compliant)
-* Automatic rescheduling after reboot
-* Time & timezone change detection
-* Manual force refresh supported
-* In-app update check via GitHub Releases
+* **Data Source:** JSON (bundled asset, or user-imported file in app storage)
 
 ---
 
@@ -115,7 +141,7 @@ Designed for maximum scheduling resilience across Android versions.
 * No analytics
 * No tracking
 * No user data collection
-* No unnecessary permissions
+* File import uses the system file picker — no storage permission
 
 Core functionality does not require internet access.
 

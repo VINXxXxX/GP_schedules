@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TV app name (overrides the phone one) -->
+    <string name="app_name">GP Schedule TV</string>
+</resources>

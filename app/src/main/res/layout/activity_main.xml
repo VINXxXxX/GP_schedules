@@ -1,51 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <!-- Gradient background (bottom layer) -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- hairline -->
     <View
-        android:id="@+id/gradientBackground"
+        android:id="@+id/navDivider"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/widget_gradient_sbk" />
+        android:layout_height="1dp" />
 
-    <!-- Main content on top -->
+    <!-- SCHEDULE | SETTINGS with a red bar under the active tab -->
     <LinearLayout
+        android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="64dp"
+        android:orientation="horizontal">
 
-        <!-- ViewPager (cards) — fills remaining space -->
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+        <LinearLayout
+            android:id="@+id/navSchedule"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNav"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="#1E1E1E"
+            <TextView
+                android:id="@+id/navScheduleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SCHEDULE"
+                android:textSize="16sp"
+                android:importantForAccessibility="no"
+                xmlns:tools="http://schemas.android.com/tools"
+                tools:ignore="HardcodedText" />
 
-            app:menu="@menu/bottom_nav_menu"
-            app:labelVisibilityMode="labeled"
+            <View
+                android:id="@+id/navScheduleBar"
+                android:layout_width="24dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
 
-            app:itemIconSize="0dp"
-            app:itemIconTint="@null"
+        <LinearLayout
+            android:id="@+id/navSettings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            app:itemHorizontalPadding="0dp"
-            app:itemVerticalPadding="0dp"
+            <TextView
+                android:id="@+id/navSettingsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SETTINGS"
+                android:textSize="16sp"
+                android:importantForAccessibility="no"
+                xmlns:tools="http://schemas.android.com/tools"
+                tools:ignore="HardcodedText" />
 
-            app:itemTextAppearanceActive="@style/BottomNavText"
-            app:itemTextAppearanceInactive="@style/BottomNavText"
-            app:itemTextColor="@color/bottom_nav_text_selector"
-
-            app:itemBackground="@null"
-            app:itemRippleColor="@null"/>
-
+            <View
+                android:id="@+id/navSettingsBar"
+                android:layout_width="24dp"
+                android:layout_height="3dp"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+</LinearLayout>

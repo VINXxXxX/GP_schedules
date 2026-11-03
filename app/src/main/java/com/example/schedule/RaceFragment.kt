@@ -1,46 +1,79 @@
 package com.example.schedule
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.schedule.model.Race
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.schedule.data.RaceRepository
 
 class RaceFragment : Fragment() {
 
-    companion object {
-        private const val ARG_IS_MOTOGP = "is_motogp"
+    private var recyclerView: RecyclerView? = null
+    private var adapter: RaceAdapter? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private var ticks = 0
 
-        fun newInstance(isMotoGP: Boolean): RaceFragment {
-            val fragment = RaceFragment()
-            val args = Bundle()
-            args.putBoolean(ARG_IS_MOTOGP, isMotoGP)
-            fragment.arguments = args
-            return fragment
+    // Reload the list whenever a new schedule is imported or reset
+    private val scheduleListener: () -> Unit = { loadRaces() }
+    private val weatherListener: () -> Unit = { adapter?.weatherChanged() }
+
+    /** Countdown every second; re-check which round is featured every 30 s */
+    private val ticker = object : Runnable {
+        override fun run() {
+            val now = System.currentTimeMillis()
+            adapter?.let {
+                if (++ticks % 30 == 0) it.refresh(now)
+                it.tick(now)
+            }
+            handler.postDelayed(this, 1000L - now % 1000L)
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_race, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-
-        val isMotoGP = arguments?.getBoolean(ARG_IS_MOTOGP, true) ?: true
-        val jsonFile = if (isMotoGP) "motogp_races.json" else "sbk_races.json"
-
-        val jsonString = requireContext().assets.open(jsonFile).bufferedReader().use { it.readText() }
-        val gson = Gson()
-        val mapType = object : TypeToken<Map<String, List<Race>>>() {}.type
-        val jsonMap: Map<String, List<Race>> = gson.fromJson(jsonString, mapType)
-        val races = jsonMap["races"] ?: emptyList()
-
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.adapter = RaceAdapter(races)
-
+        recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView).apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            itemAnimator = null
+        }
+        loadRaces()
+        RaceRepository.addListener(scheduleListener)
+        com.example.schedule.weather.Weather.addListener(weatherListener)
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        adapter?.refresh(System.currentTimeMillis())
+        handler.removeCallbacks(ticker)
+        handler.post(ticker)
+    }
+
+    override fun onPause() {
+        handler.removeCallbacks(ticker)
+        super.onPause()
+    }
+
+    override fun onDestroyView() {
+        RaceRepository.removeListener(scheduleListener)
+        com.example.schedule.weather.Weather.removeListener(weatherListener)
+        handler.removeCallbacks(ticker)
+        recyclerView = null
+        adapter = null
+        super.onDestroyView()
+    }
+
+    private fun loadRaces() {
+        val list = recyclerView ?: return
+        val context = context ?: return
+        adapter = RaceAdapter(context, RaceRepository.getRaces(context)).also { list.adapter = it }
     }
 }

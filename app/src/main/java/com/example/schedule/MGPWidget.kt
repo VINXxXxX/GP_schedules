@@ -1,24 +1,19 @@
 package com.example.schedule
 
-import android.annotation.SuppressLint
-import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
-import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+import android.util.SizeF
 import android.widget.RemoteViews
-import com.example.schedule.model.Race
-import com.example.schedule.utils.RaceDateFormatter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
-import java.util.TimeZone
+import com.example.schedule.data.RaceRepository
+import com.example.schedule.data.WeekendTimeline
+import com.example.schedule.widget.WidgetUi
+import com.example.schedule.widget.WidgetUi.Mode
 
+/** The 4×2 MotoGP widget. Drawing lives in [WidgetUi]. */
 class MGPWidget : AppWidgetProvider() {
 
     override fun onUpdate(
@@ -26,9 +21,8 @@ class MGPWidget : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-        appWidgetIds.forEach {
-            updateAppWidget(context, appWidgetManager, it)
-        }
+        appWidgetIds.forEach { updateAppWidget(context, appWidgetManager, it) }
+        SessionScheduler.scheduleNextWakeUp(context)
     }
 
     override fun onAppWidgetOptionsChanged(
@@ -42,297 +36,50 @@ class MGPWidget : AppWidgetProvider() {
 
     companion object {
 
-        @SuppressLint("UseKtx")
+        // Height breakpoints (dp)
+        private const val MEDIUM_FROM = 150f
+        private const val TALL_FROM = 215f
+
         fun updateAppWidget(
             context: Context,
             appWidgetManager: AppWidgetManager,
             appWidgetId: Int
         ) {
-
-            // ---------- WIDGET SIZE ----------
-            val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
-            val minWidth =
-                options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH)
-
-            val isCompact = minWidth < 240
-
-            // ---------- FONT SCALE (Nothing OS FIX) ----------
-            val fontScale = context.resources.configuration.fontScale
-            val fontCompensation =
-                if (fontScale > 1.0f) (1.0f / fontScale) else 1.0f
-
-            Log.d(
-                "MGPWidget",
-                "id=$appWidgetId minW=$minWidth compact=$isCompact fontScale=$fontScale"
-            )
-
-            val views = RemoteViews(context.packageName, R.layout.widget_mgp)
-
-            // ---------- MANUAL REFRESH (TAP + HAPTIC) ----------
-            val refreshIntent = Intent(context, WidgetRefreshReceiver::class.java).apply {
-                putExtra("haptic", true)
-            }
-
-            val refreshPendingIntent = PendingIntent.getBroadcast(
-                context,
-                appWidgetId,
-                refreshIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-
-            views.setOnClickPendingIntent(R.id.widget_root, refreshPendingIntent)
-            views.setOnClickPendingIntent(R.id.widget_countdown, refreshPendingIntent)
-
             try {
-                // ---------- LOAD RACES ----------
-                val json = context.assets
-                    .open("motogp_races.json")
-                    .bufferedReader()
-                    .use { it.readText() }
+                val now = System.currentTimeMillis()
+                val races = RaceRepository.getRaces(context)
+                val snap = WeekendTimeline.snapshot(races, now)
 
-                val mapType = object : TypeToken<Map<String, List<Race>>>() {}.type
-                val races = (Gson().fromJson<Map<String, List<Race>>>(json, mapType)["races"]
-                    ?: emptyList())
-                    .sortedBy { it.race }
+                fun build(mode: Mode) =
+                    WidgetUi.build(context, R.layout.widget_mgp, races, snap, now, mode)
 
-                if (races.isEmpty()) {
-                    views.setTextViewText(R.id.widget_title, "!")
-                    appWidgetManager.updateAppWidget(appWidgetId, views)
-                    return
-                }
-
-                // ---------- TODAY (00:00) ----------
-                val today = Calendar.getInstance().apply {
-                    set(Calendar.HOUR_OF_DAY, 0)
-                    set(Calendar.MINUTE, 0)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
-                }
-
-                // ---------- SELECT RACE ----------
-                var selectedRace = races.first()
-                var selectedFriday: Calendar? = null
-
-                for (race in races) {
-                    val friday = Calendar.getInstance().apply {
-                        val p = race.race.split("-")
-                        set(p[0].toInt(), p[1].toInt() - 1, p[2].toInt(), 0, 0, 0)
-                        set(Calendar.MILLISECOND, 0)
-                    }
-
-                    val mondayAfter = (friday.clone() as Calendar).apply {
-                        add(Calendar.DAY_OF_MONTH, 3)
-                    }
-
-                    if (today.timeInMillis < friday.timeInMillis ||
-                        today.timeInMillis in friday.timeInMillis until mondayAfter.timeInMillis
-                    ) {
-                        selectedRace = race
-                        selectedFriday = friday
-                        break
-                    }
-                }
-
-                if (selectedFriday == null) {
-                    val p = selectedRace.race.split("-")
-                    selectedFriday = Calendar.getInstance().apply {
-                        set(p[0].toInt(), p[1].toInt() - 1, p[2].toInt(), 0, 0, 0)
-                        set(Calendar.MILLISECOND, 0)
-                    }
-                }
-
-                // ---------- TITLE ----------
-                val parts = selectedRace.location.split(",")
-
-                val city = parts.getOrNull(1)
-                    ?.trim()
-                    ?.uppercase()
-                    ?: ""
-
-                val country = parts.getOrNull(0)
-                    ?.trim()
-                    ?.uppercase()
-                    ?: ""
-                views.setTextViewText(
-                    R.id.widget_title,
-                    "${selectedRace.round} $city"
-                )
-
-                views.setTextViewText(
-                    R.id.widget_country,
-                    country
-                )
-
-
-
-                views.setTextViewText(
-                    R.id.widget_date,
-                    RaceDateFormatter.formatWeekend(selectedFriday)
-                )
-
-                // ---------- COUNTDOWN / LIVE ----------
-                val raceEnd =
-                    selectedFriday.timeInMillis + 3 * 24 * 60 * 60 * 1000
-
-                val countdownText =
-                    if (today.timeInMillis in selectedFriday.timeInMillis until raceEnd) {
-                        "LIVE"
+                val views: RemoteViews =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        // Android 12+: hand the launcher one layout per size, it picks the best fit
+                        RemoteViews(
+                            mapOf(
+                                SizeF(250f, 100f) to build(Mode.SHORT),
+                                SizeF(250f, MEDIUM_FROM) to build(Mode.MEDIUM),
+                                SizeF(250f, TALL_FROM) to build(Mode.TALL)
+                            )
+                        )
                     } else {
-                        val diffMillis =
-                            selectedFriday.timeInMillis - today.timeInMillis
-                        val days =
-                            (diffMillis / (1000L * 60 * 60 * 24)).toInt()
-                        "${if (days < 0) 0 else days}D"
+                        val options = appWidgetManager.getAppWidgetOptions(appWidgetId)
+                        // Portrait height is reported as MAX_HEIGHT
+                        val height = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT)
+                        build(
+                            when {
+                                height >= TALL_FROM -> Mode.TALL
+                                height >= MEDIUM_FROM || height == 0 -> Mode.MEDIUM
+                                else -> Mode.SHORT
+                            }
+                        )
                     }
 
-                views.setTextViewText(R.id.widget_countdown, countdownText)
-
-                // ---------- APPLY TEXT SIZE TUNING ----------
-                val titleSize =
-                    if (isCompact) 27f else 30f
-                val dateSize =
-                    if (isCompact) 20f else 22f
-                val sessionSize =
-                    if (isCompact) 14.5f else 15.5f
-                views.setFloat(
-                    R.id.widget_title,
-                    "setTextSize",
-                    titleSize * fontCompensation
-                )
-                views.setFloat(
-                    R.id.widget_date,
-                    "setTextSize",
-                    dateSize * fontCompensation
-                )
-                views.setFloat(
-                    R.id.friday_sessions,
-                    "setTextSize",
-                    sessionSize * fontCompensation
-                )
-                views.setFloat(
-                    R.id.saturday_sessions,
-                    "setTextSize",
-                    sessionSize * fontCompensation
-                )
-                views.setFloat(
-                    R.id.sunday_sessions,
-                    "setTextSize",
-                    sessionSize * fontCompensation
-                )
-
-                // ---------- SESSION VISIBILITY ----------
-                if (isCompact) {
-                    views.setViewVisibility(R.id.friday_sessions, View.GONE)
-                    views.setViewVisibility(R.id.saturday_sessions, View.GONE)
-                    views.setViewVisibility(R.id.sunday_sessions, View.GONE)
-                } else {
-                    views.setViewVisibility(R.id.friday_sessions, View.VISIBLE)
-                    views.setViewVisibility(R.id.saturday_sessions, View.VISIBLE)
-                    views.setViewVisibility(R.id.sunday_sessions, View.VISIBLE)
-                }
-
-                // ---------- SESSIONS ----------
-                val fri = StringBuilder("FRI\n")
-                val sat = StringBuilder("SAT\n")
-                val sun = StringBuilder("SUN\n")
-
-                val input = SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.ENGLISH).apply {
-                    timeZone = TimeZone.getTimeZone("Asia/Kolkata")
-                }
-                val output = SimpleDateFormat("hh:mm a", Locale.getDefault())
-                val raceDate = selectedRace.race
-
-                selectedRace.sessions.forEach { s ->
-                    val time = try {
-                        output.format(input.parse("$raceDate ${s.sessionTime.trim()}")!!)
-                    } catch (_: Exception) {
-                        s.sessionTime
-                    }
-
-                    val raw = s.sessionName.lowercase()
-                    val display = when {
-                        raw.contains("sprint") -> "SPR"
-                        raw == "fp1" -> "FP1"
-                        raw == "fp2" -> "PR"
-                        raw == "fp3" -> "FP2"
-                        raw == "q1" -> "Q1"
-                        raw == "q2" -> "Q2"
-                        raw.contains("race") -> "RC"
-                        else -> s.sessionName.uppercase()
-                    }
-
-                    val line = "$display $time\n"
-
-                    when (raw) {
-                        "fp1", "fp2" -> fri.append(line)
-                        "fp3", "q1", "q2", "sprint" -> sat.append(line)
-                        else -> sun.append(line)
-                    }
-                }
-
-                views.setTextViewText(R.id.friday_sessions, fri.toString().trim())
-                views.setTextViewText(R.id.saturday_sessions, sat.toString().trim())
-                views.setTextViewText(R.id.sunday_sessions, sun.toString().trim())
-
-                // ---------- LIVE / DIM DAY LOGIC ----------
-
-// Colors
-                val normalColor = android.graphics.Color.WHITE
-                val dimColor = android.graphics.Color.parseColor("#66FFFFFF")   // ~40% white
-                val liveColor = android.graphics.Color.parseColor("#FF9494")   // red
-
-// Reset colors first (VERY IMPORTANT)
-                views.setTextColor(R.id.friday_sessions, normalColor)
-                views.setTextColor(R.id.saturday_sessions, normalColor)
-                views.setTextColor(R.id.sunday_sessions, normalColor)
-
-// Build race day calendars
-                val fridayCal = selectedFriday!!
-                val saturdayCal = (fridayCal.clone() as Calendar).apply {
-                    add(Calendar.DAY_OF_MONTH, 1)
-                }
-                val sundayCal = (fridayCal.clone() as Calendar).apply {
-                    add(Calendar.DAY_OF_MONTH, 2)
-                }
-
-                val now = Calendar.getInstance()
-
-// ---------- DIM PAST DAYS ----------
-                if (now.after(fridayCal)) {
-                    views.setTextColor(R.id.friday_sessions, dimColor)
-                }
-                if (now.after(saturdayCal)) {
-                    views.setTextColor(R.id.saturday_sessions, dimColor)
-                }
-                if (now.after(sundayCal)) {
-                    views.setTextColor(R.id.sunday_sessions, dimColor)
-                }
-
-// ---------- LIVE DAY HIGHLIGHT + PULSE ----------
-                val isLiveWeekend =
-                    today.timeInMillis in selectedFriday.timeInMillis until raceEnd
-
-                if (isLiveWeekend) {
-
-                    val liveViewId = when (now.get(Calendar.DAY_OF_WEEK)) {
-                        Calendar.FRIDAY -> R.id.friday_sessions
-                        Calendar.SATURDAY -> R.id.saturday_sessions
-                        Calendar.SUNDAY -> R.id.sunday_sessions
-                        else -> null
-                    }
-
-                    liveViewId?.let { viewId ->
-                        // Override dim with live color
-                        views.setTextColor(viewId, liveColor)
-                    }
-                }
-
+                appWidgetManager.updateAppWidget(appWidgetId, views)
             } catch (e: Exception) {
                 Log.e("MGPWidget", "Widget update failed", e)
-                views.setTextViewText(R.id.widget_title, "!")
             }
-
-            appWidgetManager.updateAppWidget(appWidgetId, views)
         }
     }
 }

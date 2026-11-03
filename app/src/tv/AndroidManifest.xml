@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TV app (com.example.schedule.tv): TV app list entry, TV widget, home-screen channel row.
+     Everything shared lives in src/main/AndroidManifest.xml. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Channel row on the TV home screen -->
+    <uses-permission android:name="com.android.providers.tv.permission.READ_EPG_DATA" />
+    <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
+    <uses-feature android:name="android.software.leanback" android:required="true" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+
+    <application android:banner="@drawable/tv_banner">
+
+        <!-- TV: full-screen weekend for the remote (TV app list, TV widget, channel cards) -->
+        <activity
+            android:name=".tv.TvScheduleActivity"
+            android:banner="@drawable/tv_banner"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- TV widget (wide), for TV launchers that host Android widgets (e.g. ATV Launcher) -->
+        <receiver
+            android:name=".tv.TvWidget"
+            android:label="MotoGP · TV"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/tv_widget_info" />
+        </receiver>
+
+        <!-- TV: publish the channel row right after install -->
+        <receiver
+            android:name=".tv.TvInitReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.media.tv.action.INITIALIZE_PROGRAMS" />
+            </intent-filter>
+        </receiver>
+
+        <!-- TV: card images for the channel row (read-only PNGs, any launcher may read them) -->
+        <provider
+            android:name=".tv.TvArtProvider"
+            android:authorities="${applicationId}.tvart"
+            android:exported="true"
+            android:grantUriPermissions="false"
+            tools:ignore="ExportedContentProvider" />
+
+    </application>
+</manifest>
