@@ -62,13 +62,13 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "07:35 PM",
+          "sessionTime": "08:35 PM",
           "dayOffset": 0
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "11:50 PM",
-          "dayOffset": 0
+          "sessionTime": "12:30 AM",
+          "dayOffset": 1
         },
         {
           "sessionName": "fp3",
@@ -87,8 +87,8 @@
         },
         {
           "sessionName": "sprint",
-          "sessionTime": "11:30 PM",
-          "dayOffset": 1
+          "sessionTime": "12:50 AM",
+          "dayOffset": 2
         },
         {
           "sessionName": "warmup",
@@ -124,22 +124,22 @@
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "07:15 PM",
+          "sessionTime": "08:40 PM",
           "dayOffset": 1
         },
         {
           "sessionName": "q1",
-          "sessionTime": "07:50 PM",
+          "sessionTime": "09:20 PM",
           "dayOffset": 1
         },
         {
           "sessionName": "q2",
-          "sessionTime": "08:15 PM",
+          "sessionTime": "09:45 PM",
           "dayOffset": 1
         },
         {
           "sessionName": "sprint",
-          "sessionTime": "01:30 AM",
+          "sessionTime": "01:40 AM",
           "dayOffset": 2
         },
         {
@@ -607,17 +607,17 @@
         },
         {
           "sessionName": "sprint",
-          "sessionTime": "08:30 PM",
+          "sessionTime": "08:35 PM",
           "dayOffset": 1
         },
         {
           "sessionName": "warmup",
-          "sessionTime": "02:40 PM",
+          "sessionTime": "02:10 PM",
           "dayOffset": 2
         },
         {
           "sessionName": "race",
-          "sessionTime": "07:00 PM",
+          "sessionTime": "05:30 PM",
           "dayOffset": 2
         }
       ],
@@ -805,12 +805,12 @@
         },
         {
           "sessionName": "q1",
-          "sessionTime": "07:20 AM",
+          "sessionTime": "07:28 AM",
           "dayOffset": 1
         },
         {
           "sessionName": "q2",
-          "sessionTime": "07:45 AM",
+          "sessionTime": "07:53 AM",
           "dayOffset": 1
         },
         {
@@ -820,7 +820,7 @@
         },
         {
           "sessionName": "warmup",
-          "sessionTime": "06:10 AM",
+          "sessionTime": "06:05 AM",
           "dayOffset": 2
         },
         {
@@ -847,7 +847,7 @@
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "12:30 PM",
+          "sessionTime": "01:05 PM",
           "dayOffset": 0
         },
         {
@@ -857,12 +857,12 @@
         },
         {
           "sessionName": "q1",
-          "sessionTime": "08:20 AM",
+          "sessionTime": "08:25 AM",
           "dayOffset": 1
         },
         {
           "sessionName": "q2",
-          "sessionTime": "08:45 AM",
+          "sessionTime": "08:50 AM",
           "dayOffset": 1
         },
         {
@@ -872,12 +872,12 @@
         },
         {
           "sessionName": "warmup",
-          "sessionTime": "07:10 AM",
+          "sessionTime": "08:10 AM",
           "dayOffset": 2
         },
         {
           "sessionName": "race",
-          "sessionTime": "11:30 AM",
+          "sessionTime": "12:30 PM",
           "dayOffset": 2
         }
       ],
@@ -929,7 +929,7 @@
         },
         {
           "sessionName": "race",
-          "sessionTime": "08:30 AM",
+          "sessionTime": "11:00 AM",
           "dayOffset": 2
         }
       ],
@@ -998,42 +998,42 @@
       "sessions": [
         {
           "sessionName": "fp1",
-          "sessionTime": "06:15 PM",
+          "sessionTime": "05:15 PM",
           "dayOffset": 0
         },
         {
           "sessionName": "fp2",
-          "sessionTime": "10:30 PM",
+          "sessionTime": "09:30 PM",
           "dayOffset": 0
         },
         {
           "sessionName": "fp3",
-          "sessionTime": "05:30 PM",
+          "sessionTime": "04:30 PM",
           "dayOffset": 1
         },
         {
           "sessionName": "q1",
-          "sessionTime": "06:10 PM",
+          "sessionTime": "05:10 PM",
           "dayOffset": 1
         },
         {
           "sessionName": "q2",
-          "sessionTime": "06:35 PM",
+          "sessionTime": "05:35 PM",
           "dayOffset": 1
         },
         {
           "sessionName": "sprint",
-          "sessionTime": "10:30 PM",
+          "sessionTime": "09:30 PM",
           "dayOffset": 1
         },
         {
           "sessionName": "warmup",
-          "sessionTime": "06:10 PM",
+          "sessionTime": "05:10 PM",
           "dayOffset": 2
         },
         {
           "sessionName": "race",
-          "sessionTime": "10:30 PM",
+          "sessionTime": "09:30 PM",
           "dayOffset": 2
         }
       ],
@@ -1080,7 +1080,7 @@
         },
         {
           "sessionName": "warmup",
-          "sessionTime": "02:10 PM",
+          "sessionTime": "03:10 PM",
           "dayOffset": 2
         },
         {
